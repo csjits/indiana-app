@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hot_CardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:padding="16dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="8dp"
+    card_view:cardCornerRadius="2dp">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/post_message"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="64dp"
+            android:text="Schöner langer Text"/>
+
+        <TextView
+            android:id="@+id/post_date"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_below="@+id/post_message"
+            android:layout_alignLeft="@+id/post_message"
+            android:layout_alignParentBottom="true"
+            android:gravity="bottom"
+            android:text="04.05.2015"/>
+
+        <TextView
+            android:id="@+id/post_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_below="@+id/post_message"
+            android:layout_alignRight="@+id/post_message"
+            android:layout_alignParentBottom="true"
+            android:gravity="bottom"
+            android:text="3,4km"/>
+
+        <Button
+            android:id="@+id/post_upvote"
+            android:layout_width="48dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:padding="0dp"
+            android:text="+"/>
+
+        <TextView
+            android:id="@+id/post_score"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/post_upvote"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:text="15"/>
+
+        <Button
+            android:id="@+id/post_downvote"
+            android:layout_width="48dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/post_score"
+            android:padding="0dp"
+            android:text="-"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
