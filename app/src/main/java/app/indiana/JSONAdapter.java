@@ -42,31 +42,15 @@ public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder
         final ApiAdapter apiAdapter = new ApiAdapter(view);
         JSONObject jsonObject = mPostArray.optJSONObject(position);
 
-        post.id = jsonObject.optString("_id");
+        post.id = jsonObject.optString("id");
         post.message = jsonObject.optString("message");
-
-        DateTimeFormatter dtfParser = ISODateTimeFormat.dateTime();
-        DateTime dtPost = dtfParser.parseDateTime(jsonObject.optString("date"));
-        DateTime dtCurrent = new DateTime();
-        Duration duration = new Duration(dtPost, dtCurrent);
-        String createdString = "";
-        if (duration.getStandardDays() > 0) {
-            createdString = duration.getStandardDays() + "d";
-        } else if (duration.getStandardHours() > 0) {
-            createdString = duration.getStandardHours() + "h";
-        } else if (duration.getStandardMinutes() > 0) {
-            createdString = duration.getStandardMinutes() + "m";
-        } else if (duration.getStandardSeconds() > 0) {
-            createdString = duration.getStandardSeconds() + "s";
-        }
-        post.created = createdString;
-
+        post.age = jsonObject.optString("age");
         post.score = jsonObject.optString("score");
         JSONObject loc = jsonObject.optJSONObject("loc");
         if (loc != null) post.distance = loc.optString("lat") + "," + loc.optString("long");
 
         postViewHolder.vMessage.setText(post.message);
-        postViewHolder.vCreated.setText(post.created);
+        postViewHolder.vAge.setText(post.age);
         postViewHolder.vScore.setText(post.score);
         postViewHolder.vDistance.setText(post.distance + "km");
 
@@ -91,7 +75,7 @@ public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         public TextView vMessage;
-        public TextView vCreated;
+        public TextView vAge;
         public TextView vScore;
         public TextView vDistance;
         public Button vUpvote;
@@ -100,7 +84,7 @@ public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder
         public PostViewHolder(View v) {
             super(v);
             vMessage = (TextView) v.findViewById(R.id.post_message);
-            vCreated = (TextView) v.findViewById(R.id.post_date);
+            vAge = (TextView) v.findViewById(R.id.post_date);
             vScore = (TextView) v.findViewById(R.id.post_score);
             vDistance = (TextView) v.findViewById(R.id.post_distance);
             vUpvote = (Button) v.findViewById(R.id.post_upvote);

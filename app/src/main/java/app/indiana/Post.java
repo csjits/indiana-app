@@ -6,7 +6,7 @@ package app.indiana;
 public class Post {
     public String id;
     public String message;
-    public String created;
+    public String age;
     public String score;
     public String distance;
 }

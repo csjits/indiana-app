@@ -18,8 +18,8 @@ import org.json.JSONObject;
  */
 public class ApiAdapter {
 
-    private static final String API_URL = "http://indiana.mirfac.uberspace.de/api/";
-    //private static final String API_URL = "http://192.168.178.60:61017/";
+    //private static final String API_URL = "http://indiana.mirfac.uberspace.de/api/";
+    private static final String API_URL = "http://192.168.178.61:61017/";
 
     private View callbackView;
 
