@@ -17,13 +17,12 @@ import android.view.ViewGroup;
  */
 public class HotTab extends Fragment {
 
-    ApiAdapter mApiAdapter;
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_hot, container, false);
 
-        mApiAdapter = new ApiAdapter(v);
+        final Indiana appState = (Indiana) getActivity().getApplicationContext();
+        final ApiAdapter mApiAdapter = new ApiAdapter(v);
 
         RecyclerView hotRecyclerView = (RecyclerView) v.findViewById(R.id.hot_CardList);
         hotRecyclerView.setHasFixedSize(false);
@@ -35,11 +34,14 @@ public class HotTab extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mApiAdapter.fetchPosts();
+                appState.getUserLocation().refreshLocation();
+                mApiAdapter.fetchPosts(appState.getUserLocation().getLastLocation().getLongitude(),
+                        appState.getUserLocation().getLastLocation().getLatitude());
             }
         });
 
-        mApiAdapter.fetchPosts();
+        //mApiAdapter.fetchPosts(appState.getUserLocation().getLastLocation().getLongitude(),
+        //        appState.getUserLocation().getLastLocation().getLatitude());
 
         return v;
     }

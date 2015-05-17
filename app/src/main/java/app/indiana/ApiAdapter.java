@@ -29,13 +29,17 @@ public class ApiAdapter {
         callbackView = v;
     }
 
-    public void fetchPosts() {
+    public void fetchPosts(double longitude, double latitude) {
+        Log.d("indiana", "fetchPosts");
         final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) callbackView.findViewById(R.id.fragment_hot);
         final RecyclerView recyclerView = (RecyclerView) callbackView.findViewById(R.id.hot_CardList);
         final JSONAdapter jsonAdapter = (JSONAdapter) recyclerView.getAdapter();
 
+        RequestParams params = new RequestParams();
+        params.put("long", String.valueOf(longitude));
+        params.put("lat", String.valueOf(latitude));
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(API_URL + "posts", new JsonHttpResponseHandler() {
+        client.get(API_URL + "posts", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONArray jsonArray) {
                 jsonAdapter.updateData(jsonArray);
@@ -44,8 +48,8 @@ public class ApiAdapter {
 
             @Override
             public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
-                //Toast.makeText(getActivity().getApplicationContext(), "Error: " + statusCode + " " + throwable.getMessage(), Toast.LENGTH_LONG).show();
                 swipeRefreshLayout.setRefreshing(false);
+                Log.d("failure", "Error: " + statusCode + " " + throwable.getMessage());
             }
         });
     }
@@ -55,31 +59,31 @@ public class ApiAdapter {
         client.post(API_URL + "posts/" + postId + "/" + action, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONArray jsonArray) {
-                //Toast.makeText(getActivity().getApplicationContext(), "Success!", Toast.LENGTH_LONG).show();
+                // Vote success
             }
 
             @Override
             public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
-                //Toast.makeText(getActivity().getApplicationContext(), "Error: " + statusCode + " " + throwable.getMessage(), Toast.LENGTH_LONG).show();
+                Log.d("failure", "Error: " + statusCode + " " + throwable.getMessage());
             }
         });
     }
 
-    public void postMessage(String message) {
+    public void postMessage(String message, double longitude, double latitude) {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("message", message);
-        params.put("lat", "5");
-        params.put("long", "6");
+        params.put("long", String.valueOf(longitude));
+        params.put("lat", String.valueOf(latitude));
         client.post(API_URL + "posts", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONArray jsonArray) {
-                //Toast.makeText(getActivity().getApplicationContext(), "Success!", Toast.LENGTH_LONG).show();
+                Log.d("post", "success");
             }
 
             @Override
             public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
-                //Toast.makeText(getActivity().getApplicationContext(), "Error: " + statusCode + " " + throwable.getMessage(), Toast.LENGTH_LONG).show();
+                Log.d("failure", "Error: " + statusCode + " " + throwable.getMessage());
             }
         });
     }

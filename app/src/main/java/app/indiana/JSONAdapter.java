@@ -7,10 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -46,8 +42,7 @@ public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder
         post.message = jsonObject.optString("message");
         post.age = jsonObject.optString("age");
         post.score = jsonObject.optString("score");
-        JSONObject loc = jsonObject.optJSONObject("loc");
-        if (loc != null) post.distance = loc.optString("lat") + "," + loc.optString("long");
+        post.distance = jsonObject.optString("distance");
 
         postViewHolder.vMessage.setText(post.message);
         postViewHolder.vAge.setText(post.age);
