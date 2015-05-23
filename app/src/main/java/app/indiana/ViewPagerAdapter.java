@@ -10,23 +10,26 @@ import android.support.v4.app.FragmentStatePagerAdapter;
  */
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     CharSequence mTitles[];
-    int mNumbOfTabs;
+    int mNumTabs;
+    HotPostsView mHotPostsView;
+    NewPostsView mNewPostsView;
 
-
-    public ViewPagerAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb) {
+    public ViewPagerAdapter(FragmentManager fm, CharSequence titles[], int numTabs) {
         super(fm);
-        this.mTitles = mTitles;
-        this.mNumbOfTabs = mNumbOfTabsumb;
+        mTitles = titles;
+        mNumTabs = numTabs;
     }
 
     @Override
     public Fragment getItem(int position) {
         if(position == 0) {
-            HotPostsView hotPostsView = new HotPostsView();
-            return hotPostsView;
+            if (mHotPostsView == null) mHotPostsView = new HotPostsView();
+            return mHotPostsView;
+        } else if (position == 1) {
+            if (mNewPostsView == null) mNewPostsView = new NewPostsView();
+            return mNewPostsView;
         } else {
-            NewPostsView newPostsView = new NewPostsView();
-            return newPostsView;
+            return new NewPostsView();
         }
     }
 
@@ -37,6 +40,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return mNumbOfTabs;
+        return mNumTabs;
+    }
+
+    public Fragment getView(String type) {
+        if (type == "new") {
+            return mNewPostsView;
+        }
+        return mHotPostsView;
     }
 }

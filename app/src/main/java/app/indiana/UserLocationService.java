@@ -11,6 +11,7 @@ import com.google.android.gms.location.LocationServices;
 public class UserLocationService {
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
+    private boolean isConnected = false;
 
     public void setGoogleApiClient(GoogleApiClient newClient) {
         mGoogleApiClient = newClient;
@@ -25,5 +26,13 @@ public class UserLocationService {
 
     public Location getLastLocation() {
         return mLastLocation;
+    }
+
+    public void setConnected(boolean isConnected) {
+        this.isConnected = isConnected;
+    }
+
+    public boolean isConnected() {
+        return isConnected;
     }
 }

@@ -47,10 +47,16 @@ public class HotPostsView extends Fragment {
             }
         });
 
-        //mApiAdapter.fetchPosts(appState.getUserLocation().getLastLocation().getLongitude(),
-        //        appState.getUserLocation().getLastLocation().getLatitude());
+        if (appState.getUserLocation().isConnected()) {
+            fetchPosts();
+        }
 
         return v;
+    }
+
+    public void refresh() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        fetchPosts();
     }
 
     private void fetchPosts() {

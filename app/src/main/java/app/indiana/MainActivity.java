@@ -1,6 +1,7 @@
 package app.indiana;
 
 import android.app.Dialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
     GoogleApiClient mGoogleApiClient;
     Indiana appState;
+    ViewPagerAdapter mViewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +39,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         CharSequence tabTitles[] = {"Hot","New", "My"};
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), tabTitles, tabTitles.length);
-        pager.setAdapter(adapter);
+        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), tabTitles, tabTitles.length);
+        pager.setAdapter(mViewPagerAdapter);
 
         SlidingTabLayout tabs = (SlidingTabLayout) findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true);
@@ -116,15 +118,20 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
             Log.d("long", String.valueOf(appState.getUserLocation().getLastLocation().getLatitude()));
             Log.d("lat", String.valueOf(appState.getUserLocation().getLastLocation().getLongitude()));
         }
+        appState.getUserLocation().setConnected(true);
+        HotPostsView hpv = (HotPostsView) mViewPagerAdapter.getView("hot");
+        hpv.refresh();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
+        appState.getUserLocation().setConnected(false);
         mGoogleApiClient.connect();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
+        appState.getUserLocation().setConnected(false);
         Log.d("Connection failed", connectionResult.toString());
     }
 }
