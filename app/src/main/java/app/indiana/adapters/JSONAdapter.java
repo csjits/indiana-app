@@ -1,10 +1,13 @@
 package app.indiana.adapters;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -12,6 +15,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import app.indiana.MainActivity;
 import app.indiana.models.PostContainer;
 import app.indiana.services.PostService;
 import app.indiana.R;
@@ -38,8 +42,9 @@ public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder
     }
 
     @Override
-    public void onBindViewHolder(PostViewHolder postViewHolder, int position) {
+    public void onBindViewHolder(final PostViewHolder postViewHolder, int position) {
         final PostContainer postContainer = new PostContainer();
+        final int primaryColor = postViewHolder.itemView.getResources().getColor(R.color.ColorPrimary);
         JSONObject jsonObject = mPostArray.optJSONObject(position);
 
         postContainer.id = jsonObject.optString("id");
@@ -56,13 +61,27 @@ public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder
         postViewHolder.vUpvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (postContainer.voted) return;
+                postContainer.voted = true;
                 PostService.vote(postContainer.id, "up", new JsonHttpResponseHandler());
+                ImageButton upvoteButton = (ImageButton) v;
+                upvoteButton.setBackgroundResource(R.drawable.upvote_active);
+                postContainer.score = String.valueOf(Integer.parseInt(postContainer.score) + 1);
+                postViewHolder.vScore.setText(postContainer.score);
+                postViewHolder.vScore.setTextColor(primaryColor);
             }
         });
         postViewHolder.vDownvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (postContainer.voted) return;
+                postContainer.voted = true;
                 PostService.vote(postContainer.id, "down", new JsonHttpResponseHandler());
+                ImageButton downvoteButton = (ImageButton) v;
+                downvoteButton.setBackgroundResource(R.drawable.downvote_active);
+                postContainer.score = String.valueOf(Integer.parseInt(postContainer.score) - 1);
+                postViewHolder.vScore.setText(postContainer.score);
+                postViewHolder.vScore.setTextColor(primaryColor);
             }
         });
     }
@@ -77,8 +96,8 @@ public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder
         public TextView vAge;
         public TextView vScore;
         public TextView vDistance;
-        public Button vUpvote;
-        public Button vDownvote;
+        public ImageButton vUpvote;
+        public ImageButton vDownvote;
 
         public PostViewHolder(View v) {
             super(v);
@@ -86,8 +105,8 @@ public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder
             vAge = (TextView) v.findViewById(R.id.post_date);
             vScore = (TextView) v.findViewById(R.id.post_score);
             vDistance = (TextView) v.findViewById(R.id.post_distance);
-            vUpvote = (Button) v.findViewById(R.id.post_upvote);
-            vDownvote = (Button) v.findViewById(R.id.post_downvote);
+            vUpvote = (ImageButton) v.findViewById(R.id.post_upvote);
+            vDownvote = (ImageButton) v.findViewById(R.id.post_downvote);
         }
     }
 }
