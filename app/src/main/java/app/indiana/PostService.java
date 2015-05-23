@@ -1,5 +1,7 @@
 package app.indiana;
 
+import android.util.Log;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -15,6 +17,7 @@ public class PostService {
     private static AsyncHttpClient mClient = new AsyncHttpClient();
 
     public static void get(double longitude, double latitude, String sort, AsyncHttpResponseHandler responseHandler) {
+        Log.d("sort", sort);
         RequestParams params = new RequestParams();
         params.put("long", String.valueOf(longitude));
         params.put("lat", String.valueOf(latitude));

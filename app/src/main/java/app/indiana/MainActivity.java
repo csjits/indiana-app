@@ -119,8 +119,12 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
             Log.d("lat", String.valueOf(appState.getUserLocation().getLastLocation().getLongitude()));
         }
         appState.getUserLocation().setConnected(true);
+
         HotPostsView hpv = (HotPostsView) mViewPagerAdapter.getView("hot");
         hpv.refresh();
+
+        NewPostsView npv = (NewPostsView) mViewPagerAdapter.getView("new");
+        npv.refresh();
     }
 
     @Override
