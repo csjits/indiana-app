@@ -17,6 +17,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class MainActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -78,13 +79,12 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                 .setPositiveButton("Send", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        PostService postService = new PostService(view);
                         Dialog d = (Dialog) dialog;
                         EditText messageInput = (EditText) d.findViewById(R.id.message_input);
                         appState.getUserLocation().refreshLocation();
                         Location lastLocation = appState.getUserLocation().getLastLocation();
-                        postService.postMessage(messageInput.getText().toString(),
-                                lastLocation.getLongitude(), lastLocation.getLatitude());
+                        PostService.post(messageInput.getText().toString(),
+                                lastLocation.getLongitude(), lastLocation.getLatitude(), new JsonHttpResponseHandler());
                         dialog.dismiss();
                     }
                 })

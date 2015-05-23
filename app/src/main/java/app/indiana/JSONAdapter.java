@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -35,7 +37,6 @@ public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(PostViewHolder postViewHolder, int position) {
         final PostContainer postContainer = new PostContainer();
-        final PostService postService = new PostService(view);
         JSONObject jsonObject = mPostArray.optJSONObject(position);
 
         postContainer.id = jsonObject.optString("id");
@@ -52,13 +53,13 @@ public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder
         postViewHolder.vUpvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                postService.vote(postContainer.id, "up");
+                PostService.vote(postContainer.id, "up", new JsonHttpResponseHandler());
             }
         });
         postViewHolder.vDownvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                postService.vote(postContainer.id, "down");
+                PostService.vote(postContainer.id, "down", new JsonHttpResponseHandler());
             }
         });
     }
