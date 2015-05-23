@@ -2,11 +2,9 @@ package app.indiana.adapters;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -15,7 +13,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import app.indiana.MainActivity;
 import app.indiana.models.PostContainer;
 import app.indiana.services.PostService;
 import app.indiana.R;
@@ -56,13 +53,15 @@ public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder
         postViewHolder.vMessage.setText(postContainer.message);
         postViewHolder.vAge.setText(postContainer.age);
         postViewHolder.vScore.setText(postContainer.score);
+        postViewHolder.vScore.setTextColor(Color.DKGRAY);
         postViewHolder.vDistance.setText(postContainer.distance + "km");
 
+        postViewHolder.vUpvote.setBackgroundResource(R.drawable.upvote);
         postViewHolder.vUpvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (postContainer.voted) return;
-                postContainer.voted = true;
+                if (postContainer.voted != 0) return;
+                postContainer.voted = 1;
                 PostService.vote(postContainer.id, "up", new JsonHttpResponseHandler());
                 ImageButton upvoteButton = (ImageButton) v;
                 upvoteButton.setBackgroundResource(R.drawable.upvote_active);
@@ -71,11 +70,13 @@ public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder
                 postViewHolder.vScore.setTextColor(primaryColor);
             }
         });
+
+        postViewHolder.vDownvote.setBackgroundResource(R.drawable.downvote);
         postViewHolder.vDownvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (postContainer.voted) return;
-                postContainer.voted = true;
+                if (postContainer.voted != 0) return;
+                postContainer.voted = -1;
                 PostService.vote(postContainer.id, "down", new JsonHttpResponseHandler());
                 ImageButton downvoteButton = (ImageButton) v;
                 downvoteButton.setBackgroundResource(R.drawable.downvote_active);
