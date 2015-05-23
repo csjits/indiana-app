@@ -1,7 +1,6 @@
 package app.indiana;
 
 import android.app.Dialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
@@ -19,6 +18,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.loopj.android.http.JsonHttpResponseHandler;
+
+import app.indiana.adapters.ViewPagerAdapter;
+import app.indiana.services.PostService;
+import app.indiana.views.HotPostsView;
+import app.indiana.views.NewPostsView;
 
 public class MainActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -74,7 +78,6 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
     public void createMessageDialog(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final View view = v;
         builder.setTitle("Say something!");
 
         builder.setView(v.inflate(this, R.layout.dialog_create, null))

@@ -1,8 +1,11 @@
-package app.indiana;
+package app.indiana.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import app.indiana.views.HotPostsView;
+import app.indiana.views.NewPostsView;
 
 /**
  * Created by chris on 04.05.2015.

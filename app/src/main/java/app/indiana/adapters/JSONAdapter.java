@@ -1,4 +1,4 @@
-package app.indiana;
+package app.indiana.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +12,9 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import app.indiana.models.PostContainer;
+import app.indiana.services.PostService;
+import app.indiana.R;
 
 
 /**

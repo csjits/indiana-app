@@ -1,4 +1,4 @@
-package app.indiana;
+package app.indiana.views;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import app.indiana.Indiana;
+import app.indiana.R;
 
 /**
  * Created by chris on 04.05.2015.

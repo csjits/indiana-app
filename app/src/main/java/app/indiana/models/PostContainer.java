@@ -1,4 +1,4 @@
-package app.indiana;
+package app.indiana.models;
 
 /**
  * Created by chris on 07.05.2015.

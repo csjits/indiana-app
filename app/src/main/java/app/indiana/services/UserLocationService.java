@@ -1,4 +1,4 @@
-package app.indiana;
+package app.indiana.services;
 
 import android.location.Location;
 

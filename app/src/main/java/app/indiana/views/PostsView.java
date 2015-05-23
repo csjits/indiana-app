@@ -1,4 +1,4 @@
-package app.indiana;
+package app.indiana.views;
 
 import android.location.Location;
 import android.support.v4.app.Fragment;
@@ -11,6 +11,10 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import app.indiana.Indiana;
+import app.indiana.adapters.JSONAdapter;
+import app.indiana.services.PostService;
 
 /**
  * Created by chris on 23.05.2015.
