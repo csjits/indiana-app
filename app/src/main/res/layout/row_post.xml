@@ -23,17 +23,37 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="64dp"
+            android:layout_marginBottom="16dp"
             android:text="Hello World."/>
+
+        <ImageView
+            android:id="@+id/post_date_icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignLeft="@+id/post_message"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/time"/>
 
         <TextView
             android:id="@+id/post_date"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:layout_below="@+id/post_message"
-            android:layout_alignLeft="@+id/post_message"
+            android:layout_toRightOf="@+id/post_date_icon"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="0dp"
             android:gravity="bottom"
-            android:text="1d"/>
+            android:text="1d"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12dp"/>
+
+        <ImageView
+            android:id="@+id/post_location_icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_toLeftOf="@+id/post_distance"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/location"/>
 
         <TextView
             android:id="@+id/post_distance"
@@ -43,7 +63,9 @@
             android:layout_alignRight="@+id/post_message"
             android:layout_alignParentBottom="true"
             android:gravity="bottom"
-            android:text="1km"/>
+            android:text="1km"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12dp"/>
 
         <ImageButton
             android:id="@+id/post_upvote"
