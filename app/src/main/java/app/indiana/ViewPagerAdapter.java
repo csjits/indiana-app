@@ -22,11 +22,11 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if(position == 0) {
-            HotTab hotTab = new HotTab();
-            return hotTab;
+            HotPostsView hotPostsView = new HotPostsView();
+            return hotPostsView;
         } else {
-            NewTab newTab = new NewTab();
-            return newTab;
+            NewPostsView newPostsView = new NewPostsView();
+            return newPostsView;
         }
     }
 

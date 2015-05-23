@@ -34,31 +34,31 @@ public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder
 
     @Override
     public void onBindViewHolder(PostViewHolder postViewHolder, int position) {
-        final Post post = new Post();
-        final ApiAdapter apiAdapter = new ApiAdapter(view);
+        final PostContainer postContainer = new PostContainer();
+        final PostService postService = new PostService(view);
         JSONObject jsonObject = mPostArray.optJSONObject(position);
 
-        post.id = jsonObject.optString("id");
-        post.message = jsonObject.optString("message");
-        post.age = jsonObject.optString("age");
-        post.score = jsonObject.optString("score");
-        post.distance = jsonObject.optString("distance");
+        postContainer.id = jsonObject.optString("id");
+        postContainer.message = jsonObject.optString("message");
+        postContainer.age = jsonObject.optString("age");
+        postContainer.score = jsonObject.optString("score");
+        postContainer.distance = jsonObject.optString("distance");
 
-        postViewHolder.vMessage.setText(post.message);
-        postViewHolder.vAge.setText(post.age);
-        postViewHolder.vScore.setText(post.score);
-        postViewHolder.vDistance.setText(post.distance + "km");
+        postViewHolder.vMessage.setText(postContainer.message);
+        postViewHolder.vAge.setText(postContainer.age);
+        postViewHolder.vScore.setText(postContainer.score);
+        postViewHolder.vDistance.setText(postContainer.distance + "km");
 
         postViewHolder.vUpvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                apiAdapter.vote(post.id, "up");
+                postService.vote(postContainer.id, "up");
             }
         });
         postViewHolder.vDownvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                apiAdapter.vote(post.id, "down");
+                postService.vote(postContainer.id, "down");
             }
         });
     }

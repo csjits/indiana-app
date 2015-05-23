@@ -7,10 +7,10 @@ import android.app.Application;
  */
 public class Indiana extends Application {
 
-    private UserLocation mUserLocation = new UserLocation();
+    private UserLocationService mUserLocationService = new UserLocationService();
 
-    public UserLocation getUserLocation() {
-        return mUserLocation;
+    public UserLocationService getUserLocation() {
+        return mUserLocationService;
     }
 
 }

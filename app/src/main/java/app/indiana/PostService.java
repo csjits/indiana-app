@@ -16,16 +16,16 @@ import org.json.JSONObject;
 /**
  * Created by chris on 09.05.2015.
  */
-public class ApiAdapter {
+public class PostService {
 
-    //private static final String API_URL = "http://indiana.mirfac.uberspace.de/api/";
-    private static final String API_URL = "http://192.168.178.61:61017/";
+    private static final String API_URL = "http://indiana.mirfac.uberspace.de/api/";
+    //private static final String API_URL = "http://192.168.178.61:61017/";
 
     private View callbackView;
 
-    public ApiAdapter() {}
+    public PostService() {}
 
-    public ApiAdapter(View v) {
+    public PostService(View v) {
         callbackView = v;
     }
 

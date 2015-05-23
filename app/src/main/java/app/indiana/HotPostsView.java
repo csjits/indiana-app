@@ -15,14 +15,14 @@ import android.view.ViewGroup;
 /**
  * Created by chris on 04.05.2015.
  */
-public class HotTab extends Fragment {
+public class HotPostsView extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_hot, container, false);
 
         final Indiana appState = (Indiana) getActivity().getApplicationContext();
-        final ApiAdapter mApiAdapter = new ApiAdapter(v);
+        final PostService mPostService = new PostService(v);
 
         RecyclerView hotRecyclerView = (RecyclerView) v.findViewById(R.id.hot_CardList);
         hotRecyclerView.setHasFixedSize(false);
@@ -35,7 +35,7 @@ public class HotTab extends Fragment {
             @Override
             public void onRefresh() {
                 appState.getUserLocation().refreshLocation();
-                mApiAdapter.fetchPosts(appState.getUserLocation().getLastLocation().getLongitude(),
+                mPostService.fetchPosts(appState.getUserLocation().getLastLocation().getLongitude(),
                         appState.getUserLocation().getLastLocation().getLatitude());
             }
         });

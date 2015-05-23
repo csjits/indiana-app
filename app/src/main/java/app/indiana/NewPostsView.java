@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 /**
  * Created by chris on 04.05.2015.
  */
-public class NewTab extends Fragment {
+public class NewPostsView extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =inflater.inflate(R.layout.fragment_new,container,false);

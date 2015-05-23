@@ -8,7 +8,7 @@ import com.google.android.gms.location.LocationServices;
 /**
  * Created by chris on 18.05.2015.
  */
-public class UserLocation {
+public class UserLocationService {
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
 

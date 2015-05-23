@@ -3,7 +3,7 @@ package app.indiana;
 /**
  * Created by chris on 07.05.2015.
  */
-public class Post {
+public class PostContainer {
     public String id;
     public String message;
     public String age;

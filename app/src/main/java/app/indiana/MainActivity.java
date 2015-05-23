@@ -78,12 +78,12 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                 .setPositiveButton("Send", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ApiAdapter apiAdapter = new ApiAdapter(view);
+                        PostService postService = new PostService(view);
                         Dialog d = (Dialog) dialog;
                         EditText messageInput = (EditText) d.findViewById(R.id.message_input);
                         appState.getUserLocation().refreshLocation();
                         Location lastLocation = appState.getUserLocation().getLastLocation();
-                        apiAdapter.postMessage(messageInput.getText().toString(),
+                        postService.postMessage(messageInput.getText().toString(),
                                 lastLocation.getLongitude(), lastLocation.getLatitude());
                         dialog.dismiss();
                     }
