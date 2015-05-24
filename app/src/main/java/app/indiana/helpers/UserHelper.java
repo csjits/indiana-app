@@ -1,8 +1,5 @@
 package app.indiana.helpers;
 
-import android.content.Context;
-import android.provider.Settings;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;

@@ -13,6 +13,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import app.indiana.Indiana;
 import app.indiana.models.PostContainer;
 import app.indiana.services.PostService;
 import app.indiana.R;
@@ -21,8 +22,9 @@ import app.indiana.R;
 /**
  * Created by chris on 04.05.2015.
  */
-public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder> {
+public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
+    Indiana appState;
     JSONArray mPostArray = new JSONArray();
     View view;
 
@@ -40,6 +42,7 @@ public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder
 
     @Override
     public void onBindViewHolder(final PostViewHolder postViewHolder, int position) {
+        appState = (Indiana) postViewHolder.itemView.getContext().getApplicationContext();
         final PostContainer postContainer = new PostContainer();
         final int primaryColor = postViewHolder.itemView.getResources().getColor(R.color.ColorPrimary);
         JSONObject jsonObject = mPostArray.optJSONObject(position);
@@ -49,20 +52,24 @@ public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder
         postContainer.age = jsonObject.optString("age");
         postContainer.score = jsonObject.optString("score");
         postContainer.distance = jsonObject.optString("distance");
+        postContainer.voted = jsonObject.optInt("voted");
 
         postViewHolder.vMessage.setText(postContainer.message);
         postViewHolder.vAge.setText(postContainer.age);
         postViewHolder.vScore.setText(postContainer.score);
         postViewHolder.vScore.setTextColor(Color.DKGRAY);
         postViewHolder.vDistance.setText(postContainer.distance + "km");
+        int scoreColor = (postContainer.voted == 0) ? Color.DKGRAY : primaryColor;
+        postViewHolder.vScore.setTextColor(scoreColor);
 
-        postViewHolder.vUpvote.setBackgroundResource(R.drawable.upvote);
+        int upvoteResource = (postContainer.voted == 1) ? R.drawable.upvote_active : R.drawable.upvote;
+        postViewHolder.vUpvote.setBackgroundResource(upvoteResource);
         postViewHolder.vUpvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (postContainer.voted != 0) return;
                 postContainer.voted = 1;
-                PostService.vote(postContainer.id, "up", new JsonHttpResponseHandler());
+                PostService.vote(postContainer.id, "up", appState.getUserHash(), new JsonHttpResponseHandler());
                 ImageButton upvoteButton = (ImageButton) v;
                 upvoteButton.setBackgroundResource(R.drawable.upvote_active);
                 postContainer.score = String.valueOf(Integer.parseInt(postContainer.score) + 1);
@@ -71,13 +78,14 @@ public class JSONAdapter extends RecyclerView.Adapter<JSONAdapter.PostViewHolder
             }
         });
 
-        postViewHolder.vDownvote.setBackgroundResource(R.drawable.downvote);
+        int downvoteResource = (postContainer.voted == -1) ? R.drawable.downvote_active : R.drawable.downvote;
+        postViewHolder.vDownvote.setBackgroundResource(downvoteResource);
         postViewHolder.vDownvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (postContainer.voted != 0) return;
                 postContainer.voted = -1;
-                PostService.vote(postContainer.id, "down", new JsonHttpResponseHandler());
+                PostService.vote(postContainer.id, "down", appState.getUserHash(), new JsonHttpResponseHandler());
                 ImageButton downvoteButton = (ImageButton) v;
                 downvoteButton.setBackgroundResource(R.drawable.downvote_active);
                 postContainer.score = String.valueOf(Integer.parseInt(postContainer.score) - 1);

@@ -13,7 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import app.indiana.Indiana;
-import app.indiana.adapters.JSONAdapter;
+import app.indiana.adapters.PostAdapter;
 import app.indiana.services.PostService;
 
 /**
@@ -22,7 +22,7 @@ import app.indiana.services.PostService;
 public abstract class PostsView extends Fragment {
 
     Indiana appState;
-    JSONAdapter mAdapter;
+    PostAdapter mAdapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
     String mSortType;
 
@@ -34,7 +34,7 @@ public abstract class PostsView extends Fragment {
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        mAdapter = new JSONAdapter();
+        mAdapter = new PostAdapter();
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -51,7 +51,7 @@ public abstract class PostsView extends Fragment {
     protected void fetchPosts() {
         appState.getUserLocation().refreshLocation();
         Location loc = appState.getUserLocation().getLastLocation();
-        PostService.get(loc.getLongitude(), loc.getLatitude(), mSortType, createResponseHandler());
+        PostService.get(loc.getLongitude(), loc.getLatitude(), mSortType, appState.getUserHash(), createResponseHandler());
     }
 
     private JsonHttpResponseHandler createResponseHandler() {

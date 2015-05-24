@@ -1,5 +1,7 @@
 package app.indiana.services;
 
+import android.util.Log;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -14,24 +16,28 @@ public class PostService {
 
     private static AsyncHttpClient mClient = new AsyncHttpClient();
 
-    public static void get(double longitude, double latitude, String sort, AsyncHttpResponseHandler responseHandler) {
+    public static void get(double longitude, double latitude, String sort, String userHash, AsyncHttpResponseHandler responseHandler) {
         RequestParams params = new RequestParams();
         params.put("long", String.valueOf(longitude));
         params.put("lat", String.valueOf(latitude));
         params.put("sort", sort);
+        params.put("user", userHash);
         mClient.get(API_URL + "posts", params, responseHandler);
     }
 
-    public static void vote(String postId, String action, AsyncHttpResponseHandler responseHandler) {
-        mClient.post(API_URL + "posts/" + postId + "/" + action, responseHandler);
+    public static void vote(String postId, String action, String userHash, AsyncHttpResponseHandler responseHandler) {
+        RequestParams params = new RequestParams();
+        params.put("user", userHash);
+        mClient.post(API_URL + "posts/" + postId + "/" + action, params, responseHandler);
     }
 
-    public static void post(String message, double longitude, double latitude, AsyncHttpResponseHandler responseHandler) {
+    public static void post(String message, double longitude, double latitude, String userHash, AsyncHttpResponseHandler responseHandler) {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
+        params.put("message", message);
         params.put("long", String.valueOf(longitude));
         params.put("lat", String.valueOf(latitude));
-        params.put("message", message);
+        params.put("user", userHash);
         client.post(API_URL + "posts", params, responseHandler);
     }
 }

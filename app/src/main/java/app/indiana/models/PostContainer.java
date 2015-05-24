@@ -9,5 +9,5 @@ public class PostContainer {
     public String age;
     public String score;
     public String distance;
-    public int voted = 0;
+    public int voted;
 }

@@ -2,7 +2,6 @@ package app.indiana;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -21,7 +20,6 @@ import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import app.indiana.adapters.ViewPagerAdapter;
-import app.indiana.helpers.UserHelper;
 import app.indiana.services.PostService;
 import app.indiana.views.HotPostsView;
 import app.indiana.views.NewPostsView;
@@ -61,8 +59,6 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         tabs.setViewPager(pager);
 
         buildGoogleApiClient();
-
-        setUserHash();
     }
 
     @Override
@@ -93,7 +89,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                         appState.getUserLocation().refreshLocation();
                         Location lastLocation = appState.getUserLocation().getLastLocation();
                         PostService.post(messageInput.getText().toString(),
-                                lastLocation.getLongitude(), lastLocation.getLatitude(), new JsonHttpResponseHandler());
+                                lastLocation.getLongitude(), lastLocation.getLatitude(),
+                                appState.getUserHash(), new JsonHttpResponseHandler());
                         dialog.dismiss();
                     }
                 })
@@ -146,13 +143,4 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         Log.d("Connection failed", connectionResult.toString());
     }
 
-    private void setUserHash() {
-        SharedPreferences userPrefs = getSharedPreferences("User", 0);
-        appState.setUserHash(userPrefs.getString("hash", UserHelper.createUserHash()));
-        if (!userPrefs.contains("hash")) {
-            SharedPreferences.Editor editor = userPrefs.edit();
-            editor.putString("hash", appState.getUserHash());
-            editor.commit();
-        }
-    }
 }
