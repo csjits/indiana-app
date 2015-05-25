@@ -18,6 +18,7 @@ public class NewPostsView extends PostsView {
 
     public NewPostsView() {
         super("new");
+        mToolbarDescription = "New Indies around you";
     }
 
     @Override
@@ -25,8 +26,8 @@ public class NewPostsView extends PostsView {
         appState = (Indiana) getActivity().getApplicationContext();
         View v = inflater.inflate(R.layout.fragment_new, container, false);
 
-        RecyclerView hotRecyclerView = (RecyclerView) v.findViewById(R.id.new_CardList);
-        setAdapter(hotRecyclerView);
+        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.new_CardList);
+        setAdapter(recyclerView);
 
         SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.fragment_new);
         setRefreshLayout(swipeRefreshLayout);

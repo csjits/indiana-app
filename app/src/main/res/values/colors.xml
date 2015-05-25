@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ColorPrimary">#4DB6AC</color>
-    <color name="ColorPrimaryDark">#009688</color>
-    <color name="tabsInactiveColor">#009688</color>
-    <color name="tabsActiveBarColor">#FFFFFF</color>
+    <color name="color_primary">#4DB6AC</color>
+    <color name="color_primary_dark">#009688</color>
+    <color name="color_tabs_inactive">#009688</color>
+    <color name="color_tabs_bar_active">#FFFFFF</color>
 </resources>

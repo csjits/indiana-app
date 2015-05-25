@@ -12,25 +12,27 @@ import app.indiana.Indiana;
 import app.indiana.R;
 
 /**
- * Created by chris on 04.05.2015.
+ * Created by chris on 25.05.2015.
  */
-public class HotPostsView extends PostsView {
+public class MyPostsView extends PostsView {
 
-    public HotPostsView() {
-        super("hot");
-        mToolbarDescription = "Trending around you";
+    public MyPostsView() {
+        super("new");
+        mToolbarDescription = "Your Indies";
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         appState = (Indiana) getActivity().getApplicationContext();
-        View v = inflater.inflate(R.layout.fragment_hot, container, false);
+        View v = inflater.inflate(R.layout.fragment_my, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.hot_CardList);
+        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.my_CardList);
         setAdapter(recyclerView);
 
-        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.fragment_hot);
+        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.fragment_my);
         setRefreshLayout(swipeRefreshLayout);
+
+        setScrollListener(recyclerView);
 
         if (appState.getUserLocation().isConnected()) {
             fetchPosts();

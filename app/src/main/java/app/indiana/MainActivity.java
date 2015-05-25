@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -19,7 +21,10 @@ import com.google.android.gms.location.LocationServices;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONObject;
+
 import app.indiana.adapters.ViewPagerAdapter;
+import app.indiana.R;
 import app.indiana.services.PostService;
 import app.indiana.views.HotPostsView;
 import app.indiana.views.NewPostsView;
@@ -36,8 +41,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
         setContentView(R.layout.activity_main);
 
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        //setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         appState = (Indiana) getApplicationContext();
 
@@ -52,13 +57,15 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.tabsActiveBarColor);
+                return getResources().getColor(R.color.color_tabs_bar_active);
             }
         });
 
         tabs.setViewPager(pager);
 
         buildGoogleApiClient();
+
+        fetchKarma();
     }
 
     @Override
@@ -78,7 +85,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
     public void createMessageDialog(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Say something!");
+        builder.setTitle("Create new Indy");
+        builder.setIcon(R.drawable.ic_indiana);
 
         builder.setView(v.inflate(this, R.layout.dialog_create, null))
                 .setPositiveButton("Send", new DialogInterface.OnClickListener() {
@@ -125,10 +133,13 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         appState.getUserLocation().setConnected(true);
 
         HotPostsView hpv = (HotPostsView) mViewPagerAdapter.getView("hot");
-        hpv.refresh();
+        if (hpv != null) hpv.refresh();
 
         NewPostsView npv = (NewPostsView) mViewPagerAdapter.getView("new");
-        npv.refresh();
+        if (npv != null) npv.refresh();
+
+        //MyPostsView mpv = (MyPostsView) mViewPagerAdapter.getView("my");
+        //mpv.refresh();
     }
 
     @Override
@@ -141,6 +152,17 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     public void onConnectionFailed(ConnectionResult connectionResult) {
         appState.getUserLocation().setConnected(false);
         Log.d("Connection failed", connectionResult.toString());
+    }
+
+    public void fetchKarma() {
+        PostService.karma(appState.getUserHash(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, JSONObject response) {
+                TextView karmaTextView = (TextView) findViewById(R.id.toolbar_karma);
+                int karma = response.optInt("karma");
+                karmaTextView.setText(String.valueOf(karma));
+            }
+        });
     }
 
 }

@@ -44,7 +44,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     public void onBindViewHolder(final PostViewHolder postViewHolder, int position) {
         appState = (Indiana) postViewHolder.itemView.getContext().getApplicationContext();
         final PostContainer postContainer = new PostContainer();
-        final int primaryColor = postViewHolder.itemView.getResources().getColor(R.color.ColorPrimary);
+        final int primaryColor = postViewHolder.itemView.getResources().getColor(R.color.color_primary);
         JSONObject jsonObject = mPostArray.optJSONObject(position);
 
         postContainer.id = jsonObject.optString("id");
@@ -118,4 +118,5 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             vDownvote = (ImageButton) v.findViewById(R.id.post_downvote);
         }
     }
+
 }

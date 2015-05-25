@@ -11,8 +11,8 @@ import com.loopj.android.http.RequestParams;
  */
 public class PostService {
 
-    private static final String API_URL = "http://indiana.mirfac.uberspace.de/api/";
-    //private static final String API_URL = "http://192.168.178.61:61017/";
+    //private static final String API_URL = "http://indiana.mirfac.uberspace.de/api/";
+    private static final String API_URL = "http://192.168.178.61:61017/";
 
     private static AsyncHttpClient mClient = new AsyncHttpClient();
 
@@ -32,12 +32,17 @@ public class PostService {
     }
 
     public static void post(String message, double longitude, double latitude, String userHash, AsyncHttpResponseHandler responseHandler) {
-        AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("message", message);
         params.put("long", String.valueOf(longitude));
         params.put("lat", String.valueOf(latitude));
         params.put("user", userHash);
-        client.post(API_URL + "posts", params, responseHandler);
+        mClient.post(API_URL + "posts", params, responseHandler);
+    }
+
+    public static void karma(String userHash, AsyncHttpResponseHandler responseHandler) {
+        RequestParams params = new RequestParams();
+        params.put("user", userHash);
+        mClient.get(API_URL + "karma", params, responseHandler);
     }
 }

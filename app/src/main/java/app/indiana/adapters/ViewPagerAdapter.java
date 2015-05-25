@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import app.indiana.views.HotPostsView;
+import app.indiana.views.MyPostsView;
 import app.indiana.views.NewPostsView;
 
 /**
@@ -16,6 +17,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     int mNumTabs;
     HotPostsView mHotPostsView;
     NewPostsView mNewPostsView;
+    MyPostsView mMyPostsView;
 
     public ViewPagerAdapter(FragmentManager fm, CharSequence titles[], int numTabs) {
         super(fm);
@@ -32,7 +34,8 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             if (mNewPostsView == null) mNewPostsView = new NewPostsView();
             return mNewPostsView;
         } else {
-            return new NewPostsView();
+            if (mMyPostsView == null) mMyPostsView = new MyPostsView();
+            return mMyPostsView;
         }
     }
 
@@ -49,6 +52,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getView(String type) {
         if (type == "new") {
             return mNewPostsView;
+        }
+        if (type == "my") {
+            return mMyPostsView;
         }
         return mHotPostsView;
     }

@@ -6,24 +6,25 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-    <!--<include
-        android:id="@+id/tool_bar"
-        layout="@layout/tool_bar"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent" />-->
+        android:layout_width="match_parent" />
 
     <com.google.samples.apps.iosched.ui.widget.SlidingTabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
         android:elevation="2dp"
-        android:background="@color/ColorPrimary"/>
+        android:background="@color/color_primary"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_marginTop="52dp" />
+        android:layout_below="@+id/tabs"/>
 
     <com.getbase.floatingactionbutton.AddFloatingActionButton
         android:id="@+id/button_create"
@@ -34,7 +35,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
         android:onClick="createMessageDialog"
-        fab:fab_colorNormal="@color/ColorPrimaryDark"
-        fab:fab_colorPressed="@color/ColorPrimary"/>
+        fab:fab_colorNormal="@color/color_primary_dark"
+        fab:fab_colorPressed="@color/color_primary"/>
 
 </RelativeLayout>
