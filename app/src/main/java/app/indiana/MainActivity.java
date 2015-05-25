@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
@@ -24,7 +25,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONObject;
 
 import app.indiana.adapters.ViewPagerAdapter;
-import app.indiana.R;
 import app.indiana.services.PostService;
 import app.indiana.views.HotPostsView;
 import app.indiana.views.NewPostsView;
@@ -65,7 +65,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
         buildGoogleApiClient();
 
-        fetchKarma();
+        runKarmaHandler();
     }
 
     @Override
@@ -154,7 +154,19 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         Log.d("Connection failed", connectionResult.toString());
     }
 
-    public void fetchKarma() {
+    private void runKarmaHandler() {
+        fetchKarma();
+        final Handler h = new Handler();
+        h.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fetchKarma();
+                h.postDelayed(this, 10000);
+            }
+        }, 10000);
+    }
+
+    private void fetchKarma() {
         PostService.karma(appState.getUserHash(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, JSONObject response) {
