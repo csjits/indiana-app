@@ -9,10 +9,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -112,6 +115,32 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         AlertDialog dialog = builder.create();
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         dialog.show();
+
+        Button buttonPositive = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        EditText messageInput = (EditText) dialog.getWindow().findViewById(R.id.message_input);
+        TextView charCounter = (TextView) dialog.getWindow().findViewById(R.id.char_counter);
+        messageInput.addTextChangedListener(createTextWatcher(charCounter, buttonPositive));
+        buttonPositive.setEnabled(false);
+    }
+
+    private TextWatcher createTextWatcher(final TextView textView, final Button button) {
+        TextWatcher textWatcher = new TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                textView.setText(String.valueOf(s.length()+"/200"));
+                if (s.length() > 0) {
+                    button.setEnabled(true);
+                } else {
+                    button.setEnabled(false);
+                }
+            }
+
+            public void afterTextChanged(Editable s) {
+            }
+        };
+        return textWatcher;
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -155,7 +184,6 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     }
 
     private void runKarmaHandler() {
-        fetchKarma();
         final Handler h = new Handler();
         h.postDelayed(new Runnable() {
             @Override
@@ -163,7 +191,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                 fetchKarma();
                 h.postDelayed(this, 10000);
             }
-        }, 10000);
+        }, 0);
     }
 
     private void fetchKarma() {

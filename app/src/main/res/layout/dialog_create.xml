@@ -9,7 +9,22 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
-        android:layout_margin="16dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:maxLength="200"
+        android:maxLines="4"
+        android:hint="Say something"
         android:capitalize="sentences" />
+
+    <TextView
+        android:id="@+id/char_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        android:text="0/200"/>
 
 </LinearLayout>
