@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -89,14 +90,32 @@ public abstract class PostsView extends Fragment {
         JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, JSONObject response) {
-                // Toast error
                 mSwipeRefreshLayout.setRefreshing(false);
+                String msg = response.optString("message");
+                Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onSuccess(int statusCode, JSONArray posts) {
                 mAdapter.updateData(posts);
                 mSwipeRefreshLayout.setRefreshing(false);
+                int emptyViewId = getResources().getIdentifier("empty_view_"+mSortType, "id", getActivity().getPackageName());
+                TextView emptyView = (TextView) getActivity().findViewById(emptyViewId);
+                try {
+                    emptyView.setVisibility(View.GONE);
+                } catch (NullPointerException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode,
+                                 org.apache.http.Header[] headers,
+                                 String responseString,
+                                 Throwable throwable) {
+                mSwipeRefreshLayout.setRefreshing(false);
+                String msg = "Error: Could not fetch data...";
+                Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         };
         return handler;
