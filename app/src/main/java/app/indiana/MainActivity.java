@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -195,12 +197,17 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     }
 
     private void fetchKarma() {
+        final Animation anim = AnimationUtils.loadAnimation(this, R.anim.pop);
         PostService.karma(appState.getUserHash(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, JSONObject response) {
                 TextView karmaTextView = (TextView) findViewById(R.id.toolbar_karma);
+                int oldKarma = Integer.parseInt(karmaTextView.getText().toString());
                 int karma = response.optInt("karma");
                 karmaTextView.setText(String.valueOf(karma));
+                if (karma != oldKarma) {
+                    karmaTextView.startAnimation(anim);
+                }
             }
         });
     }

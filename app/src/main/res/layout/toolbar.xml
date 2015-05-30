@@ -39,7 +39,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignBaseline="@id/toolbar_title"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
             android:text="0"
             android:textStyle="bold"/>
 
