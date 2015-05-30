@@ -71,16 +71,15 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                 return getResources().getColor(R.color.color_tabs_bar_active);
             }
         });
-
-        mIsInForeground = true;
-
         tabs.setViewPager(mViewPager);
 
         checkLocationServices();
-
         buildGoogleApiClient();
-
         runKarmaHandler();
+
+        if (appState.getToken() == "") appState.fetchToken(appState.getUserHash());
+
+        mIsInForeground = true;
     }
 
     @Override
@@ -144,7 +143,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                         Location lastLocation = appState.getUserLocation().getLastLocation();
                         PostService.post(messageInput.getText().toString(),
                                 lastLocation.getLongitude(), lastLocation.getLatitude(),
-                                appState.getUserHash(), createPostResponseHandler(d));
+                                appState.getUserHash(), appState.getToken(),
+                                createPostResponseHandler(d));
                     }
                 });
             }
@@ -164,10 +164,24 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         return new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, JSONObject response) {
-                dialog.dismiss();
-                mViewPager.setCurrentItem(mViewPagerAdapter.getPosition("my"));
-                MyPostsView mpv = (MyPostsView) mViewPagerAdapter.getView("my");
-                mpv.refresh();
+                String message = response.optString("message");
+                if (message.equals("OK")) {
+                    dialog.dismiss();
+                    mViewPager.setCurrentItem(mViewPagerAdapter.getPosition("my"));
+                    MyPostsView mpv = (MyPostsView) mViewPagerAdapter.getView("my");
+                    mpv.refresh();
+                } else {
+                    AlertDialog d = (AlertDialog) dialog;
+                    d.findViewById(R.id.message_input).setEnabled(true);
+                    d.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                    d.findViewById(R.id.post_spinner).setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+
+                    if (message.toLowerCase().contains("token")) {
+                        appState.fetchToken(appState.getUserHash());
+                    }
+                }
+
             }
 
             @Override

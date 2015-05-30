@@ -14,7 +14,8 @@ public class PostService {
 
     private static AsyncHttpClient mClient = new AsyncHttpClient();
 
-    public static void get(double longitude, double latitude, String sort, String userHash, AsyncHttpResponseHandler responseHandler) {
+    public static void get(double longitude, double latitude, String sort, String userHash,
+                           AsyncHttpResponseHandler responseHandler) {
         RequestParams params = new RequestParams();
         params.put("long", String.valueOf(longitude));
         params.put("lat", String.valueOf(latitude));
@@ -23,18 +24,22 @@ public class PostService {
         mClient.get(API_URL + "posts", params, responseHandler);
     }
 
-    public static void vote(String postId, String action, String userHash, AsyncHttpResponseHandler responseHandler) {
+    public static void vote(String postId, String action, String userHash, String token,
+                            AsyncHttpResponseHandler responseHandler) {
         RequestParams params = new RequestParams();
         params.put("user", userHash);
+        params.put("token", token);
         mClient.post(API_URL + "posts/" + postId + "/" + action, params, responseHandler);
     }
 
-    public static void post(String message, double longitude, double latitude, String userHash, AsyncHttpResponseHandler responseHandler) {
+    public static void post(String message, double longitude, double latitude, String userHash,
+                            String token, AsyncHttpResponseHandler responseHandler) {
         RequestParams params = new RequestParams();
         params.put("message", message);
         params.put("long", String.valueOf(longitude));
         params.put("lat", String.valueOf(latitude));
         params.put("user", userHash);
+        params.put("token", token);
         mClient.post(API_URL + "posts", params, responseHandler);
     }
 
@@ -42,5 +47,11 @@ public class PostService {
         RequestParams params = new RequestParams();
         params.put("user", userHash);
         mClient.get(API_URL + "karma", params, responseHandler);
+    }
+
+    public static void token(String userHash, AsyncHttpResponseHandler responseHandler) {
+        RequestParams params = new RequestParams();
+        params.put("user", userHash);
+        mClient.get(API_URL + "token", params, responseHandler);
     }
 }

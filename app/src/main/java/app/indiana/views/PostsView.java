@@ -102,11 +102,13 @@ public abstract class PostsView extends Fragment {
                     return;
                 }
                 mAdapter.updateData(posts);
-                int emptyViewId = getResources().getIdentifier("empty_view_"+mSortType, "id", getActivity().getPackageName());
-                TextView emptyView = (TextView) getActivity().findViewById(emptyViewId);
                 try {
+                    int emptyViewId = getResources().getIdentifier("empty_view_"+mSortType, "id", getActivity().getPackageName());
+                    TextView emptyView = (TextView) getActivity().findViewById(emptyViewId);
                     emptyView.setVisibility(View.GONE);
                 } catch (NullPointerException ex) {
+                    ex.printStackTrace();
+                } catch (IllegalStateException ex) {
                     ex.printStackTrace();
                 }
             }
