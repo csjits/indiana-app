@@ -17,7 +17,7 @@ import app.indiana.R;
 public class MyPostsView extends PostsView {
 
     public MyPostsView() {
-        super("new");
+        super("my");
         mToolbarDescription = "Your Indies";
     }
 
