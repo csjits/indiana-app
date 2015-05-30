@@ -35,6 +35,7 @@ import org.json.JSONObject;
 import app.indiana.adapters.ViewPagerAdapter;
 import app.indiana.services.PostService;
 import app.indiana.views.HotPostsView;
+import app.indiana.views.MyPostsView;
 import app.indiana.views.NewPostsView;
 
 public class MainActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -42,6 +43,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     Indiana appState;
     GoogleApiClient mGoogleApiClient;
     ViewPagerAdapter mViewPagerAdapter;
+    ViewPager mViewPager;
     boolean mIsInForeground;
 
     @Override
@@ -55,10 +57,10 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
         appState = (Indiana) getApplicationContext();
 
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = (ViewPager) findViewById(R.id.pager);
         CharSequence tabTitles[] = {"Hot","New", "My"};
         mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), tabTitles, tabTitles.length);
-        pager.setAdapter(mViewPagerAdapter);
+        mViewPager.setAdapter(mViewPagerAdapter);
 
         SlidingTabLayout tabs = (SlidingTabLayout) findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true);
@@ -72,7 +74,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
         mIsInForeground = true;
 
-        tabs.setViewPager(pager);
+        tabs.setViewPager(mViewPager);
 
         checkLocationServices();
 
@@ -109,24 +111,13 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     }
 
     public void createMessageDialog(View v) {
+        appState.getUserLocation().refreshLocation();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Create new Indy");
         builder.setIcon(R.drawable.ic_indiana);
 
-        builder.setView(v.inflate(this, R.layout.dialog_create, null))
-                .setPositiveButton("Send", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Dialog d = (Dialog) dialog;
-                        EditText messageInput = (EditText) d.findViewById(R.id.message_input);
-                        appState.getUserLocation().refreshLocation();
-                        Location lastLocation = appState.getUserLocation().getLastLocation();
-                        PostService.post(messageInput.getText().toString(),
-                                lastLocation.getLongitude(), lastLocation.getLatitude(),
-                                appState.getUserHash(), new JsonHttpResponseHandler());
-                        dialog.dismiss();
-                    }
-                })
+        builder.setView(View.inflate(this, R.layout.dialog_create, null))
+                .setPositiveButton("Send", null)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -135,6 +126,28 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                 });
 
         AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow (DialogInterface dialog) {
+                final AlertDialog d = (AlertDialog) dialog;
+                Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
+                b.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText messageInput = (EditText) d.findViewById(R.id.message_input);
+                        messageInput.setEnabled(false);
+                        d.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                        d.findViewById(R.id.post_spinner).setVisibility(View.VISIBLE);
+                        Location lastLocation = appState.getUserLocation().getLastLocation();
+                        PostService.post(messageInput.getText().toString(),
+                                lastLocation.getLongitude(), lastLocation.getLatitude(),
+                                appState.getUserHash(), createPostResponseHandler(d));
+                    }
+                });
+            }
+        });
+
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         dialog.show();
 
@@ -143,6 +156,31 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         TextView charCounter = (TextView) dialog.getWindow().findViewById(R.id.char_counter);
         messageInput.addTextChangedListener(createTextWatcher(charCounter, buttonPositive));
         buttonPositive.setEnabled(false);
+    }
+
+    private JsonHttpResponseHandler createPostResponseHandler(final DialogInterface dialog) {
+        return new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, JSONObject response) {
+                dialog.dismiss();
+                mViewPager.setCurrentItem(mViewPagerAdapter.getPosition("my"));
+                MyPostsView mpv = (MyPostsView) mViewPagerAdapter.getView("my");
+                mpv.refresh();
+            }
+
+            @Override
+            public void onFailure(int statusCode,
+                                  org.apache.http.Header[] headers,
+                                  String responseString,
+                                  Throwable throwable) {
+                String msg = "Error: Could not create Indy...";
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                AlertDialog d = (AlertDialog) dialog;
+                d.findViewById(R.id.message_input).setEnabled(true);
+                d.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                d.findViewById(R.id.post_spinner).setVisibility(View.GONE);
+            }
+        };
     }
 
     private TextWatcher createTextWatcher(final TextView textView, final Button button) {

@@ -58,4 +58,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         }
         return mHotPostsView;
     }
+
+    public int getPosition(String type) {
+        for (int i = 0; i < mTitles.length; i++) {
+            if (String.valueOf(mTitles[i]).equalsIgnoreCase(type)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }
