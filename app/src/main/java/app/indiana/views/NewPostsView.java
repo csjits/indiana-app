@@ -32,6 +32,8 @@ public class NewPostsView extends PostsView {
         SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.fragment_new);
         setRefreshLayout(swipeRefreshLayout);
 
+        setScrollListener(recyclerView);
+
         if (appState.getUserLocation().isConnected()) {
             fetchPosts();
         }

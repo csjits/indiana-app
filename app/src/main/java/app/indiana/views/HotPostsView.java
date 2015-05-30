@@ -32,6 +32,8 @@ public class HotPostsView extends PostsView {
         SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.fragment_hot);
         setRefreshLayout(swipeRefreshLayout);
 
+        setScrollListener(recyclerView);
+
         if (appState.getUserLocation().isConnected()) {
             fetchPosts();
         }
