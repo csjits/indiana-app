@@ -9,7 +9,7 @@ import com.google.android.gms.location.LocationServices;
  * Created by chris on 18.05.2015.
  */
 public class UserLocationService {
-    private Location mLastLocation;
+    private Location mLastLocation = new Location("foo");
     private GoogleApiClient mGoogleApiClient;
     private boolean isConnected = false;
 
