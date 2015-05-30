@@ -15,7 +15,7 @@
         android:maxLength="200"
         android:maxLines="4"
         android:hint="Say something"
-        android:capitalize="sentences" />
+        android:inputType="textCapSentences"/>
 
     <TextView
         android:id="@+id/char_counter"
