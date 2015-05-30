@@ -14,7 +14,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,6 +22,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -39,9 +39,10 @@ import app.indiana.views.NewPostsView;
 
 public class MainActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    GoogleApiClient mGoogleApiClient;
     Indiana appState;
+    GoogleApiClient mGoogleApiClient;
     ViewPagerAdapter mViewPagerAdapter;
+    boolean mIsInForeground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
             }
         });
 
+        mIsInForeground = true;
+
         tabs.setViewPager(pager);
 
         checkLocationServices();
@@ -84,6 +87,18 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mIsInForeground = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mIsInForeground = false;
     }
 
     @Override
@@ -131,7 +146,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     }
 
     private TextWatcher createTextWatcher(final TextView textView, final Button button) {
-        TextWatcher textWatcher = new TextWatcher() {
+        return new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
@@ -147,25 +162,24 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
             public void afterTextChanged(Editable s) {
             }
         };
-        return textWatcher;
     }
 
     private void checkLocationServices() {
-        // Get Location Manager and check for GPS & Network location services
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+
         if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                 !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            // Build the alert dialog
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Location Services Not Active");
             builder.setMessage("Please enable Location Services and GPS");
+
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    // Show location settings when the user acknowledges the alert dialog
                     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(intent);
                 }
             });
+
             Dialog alertDialog = builder.create();
             alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
@@ -184,10 +198,6 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     @Override
     public void onConnected(Bundle bundle) {
         appState.getUserLocation().refreshLocation();
-        if (appState.getUserLocation() != null) {
-            Log.d("long", String.valueOf(appState.getUserLocation().getLastLocation().getLatitude()));
-            Log.d("lat", String.valueOf(appState.getUserLocation().getLastLocation().getLongitude()));
-        }
         appState.getUserLocation().setConnected(true);
 
         HotPostsView hpv = (HotPostsView) mViewPagerAdapter.getView("hot");
@@ -209,7 +219,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         appState.getUserLocation().setConnected(false);
-        Log.d("Connection failed", connectionResult.toString());
+        Toast.makeText(this, "Error: Connection to location service failed!", Toast.LENGTH_SHORT).show();
     }
 
     private void runKarmaHandler() {
@@ -217,7 +227,9 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         h.postDelayed(new Runnable() {
             @Override
             public void run() {
-                fetchKarma();
+                if (mIsInForeground) {
+                    fetchKarma();
+                }
                 h.postDelayed(this, 10000);
             }
         }, 0);
