@@ -95,6 +95,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     protected void onResume() {
         super.onResume();
         mIsInForeground = true;
+        appState.getUserLocation().refreshLocation();
+        refreshViews();
     }
 
     @Override
@@ -189,7 +191,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                textView.setText(String.valueOf(s.length()+"/200"));
+                textView.setText(String.valueOf(s.length() + "/200"));
                 if (s.length() > 0) {
                     button.setEnabled(true);
                 } else {
@@ -208,8 +210,9 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                 !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Location Services Not Active");
-            builder.setMessage("Please enable Location Services and GPS");
+            builder.setTitle("Location Services not active");
+            builder.setMessage("Please activate Location Services. Indiana requires your location"
+                    +" to show Indies around you.");
 
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -233,19 +236,19 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         appState.getUserLocation().setGoogleApiClient(mGoogleApiClient);
     }
 
-    @Override
-    public void onConnected(Bundle bundle) {
-        appState.getUserLocation().refreshLocation();
-        appState.getUserLocation().setConnected(true);
-
+    private void refreshViews() {
         HotPostsView hpv = (HotPostsView) mViewPagerAdapter.getView("hot");
         if (hpv != null) hpv.refresh();
 
         NewPostsView npv = (NewPostsView) mViewPagerAdapter.getView("new");
         if (npv != null) npv.refresh();
+    }
 
-        //MyPostsView mpv = (MyPostsView) mViewPagerAdapter.getView("my");
-        //mpv.refresh();
+    @Override
+    public void onConnected(Bundle bundle) {
+        appState.getUserLocation().refreshLocation();
+        appState.getUserLocation().setConnected(true);
+        refreshViews();
     }
 
     @Override

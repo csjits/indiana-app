@@ -97,8 +97,11 @@ public abstract class PostsView extends Fragment {
 
             @Override
             public void onSuccess(int statusCode, JSONArray posts) {
-                mAdapter.updateData(posts);
                 mSwipeRefreshLayout.setRefreshing(false);
+                if (posts.length() == 0) {
+                    return;
+                }
+                mAdapter.updateData(posts);
                 int emptyViewId = getResources().getIdentifier("empty_view_"+mSortType, "id", getActivity().getPackageName());
                 TextView emptyView = (TextView) getActivity().findViewById(emptyViewId);
                 try {
