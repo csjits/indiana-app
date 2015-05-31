@@ -2,4 +2,26 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="margin_half">8dp</dimen>
+    <dimen name="margin">16dp</dimen>
+    <dimen name="margin_double">32dp</dimen>
+    <dimen name="margin_quadruple">64dp</dimen>
+
+    <dimen name="padding_half">8dp</dimen>
+    <dimen name="padding">16dp</dimen>
+
+    <dimen name="recycler_view_padding_bottom">120dp</dimen>
+    <dimen name="toolbar_elevation">2dp</dimen>
+    <dimen name="toolbar_title_size">20sp</dimen>
+    <dimen name="dialog_create_char_counter">12sp</dimen>
+
+    <dimen name="card_meta_text_size">12sp</dimen>
+    <dimen name="card_corner_radius">2dp</dimen>
+    <dimen name="card_icon_width">16dp</dimen>
+    <dimen name="card_icon_height">16dp</dimen>
+    <dimen name="card_vote_width">32dp</dimen>
+    <dimen name="card_vote_height">32dp</dimen>
+    <dimen name="card_score_width">48dp</dimen>
+
 </resources>
