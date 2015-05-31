@@ -119,7 +119,7 @@ public abstract class PostsView extends Fragment {
                                  String responseString,
                                  Throwable throwable) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                String msg = "Error: Could not fetch data...";
+                String msg = getString(R.string.error_connection_failed);
                 Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         };

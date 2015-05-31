@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_quadruple"
-            android:text="No Indies found! Pull down to refresh!"
+            android:text="@string/error_post_view_default_message"
             android:visibility="visible"/>
 
         <android.support.v7.widget.RecyclerView

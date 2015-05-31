@@ -58,7 +58,11 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         appState = (Indiana) getApplicationContext();
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
-        CharSequence tabTitles[] = {"Hot","New", "My"};
+        CharSequence tabTitles[] = {
+                getString(R.string.tab_hot_title),
+                getString(R.string.tab_new_title),
+                getString(R.string.tab_my_title)
+        };
         mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), tabTitles, tabTitles.length);
         mViewPager.setAdapter(mViewPagerAdapter);
 
@@ -114,12 +118,12 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     public void createMessageDialog(View v) {
         appState.getUserLocation().refreshLocation();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Create new Indy");
+        builder.setTitle(getString(R.string.dialog_create_title));
         builder.setIcon(R.drawable.ic_indiana);
 
         builder.setView(View.inflate(this, R.layout.dialog_create, null))
-                .setPositiveButton("Send", null)
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.dialog_create_send), null)
+                .setNegativeButton(getString(R.string.dialog_create_cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -189,7 +193,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                                   org.apache.http.Header[] headers,
                                   String responseString,
                                   Throwable throwable) {
-                String msg = "Error: Could not create Indy...";
+                String msg = getString(R.string.error_post_failed);
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                 AlertDialog d = (AlertDialog) dialog;
                 d.findViewById(R.id.message_input).setEnabled(true);
@@ -205,7 +209,9 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                textView.setText(String.valueOf(s.length() + "/200"));
+                textView.setText(String.valueOf(s.length()
+                        + getString(R.string.divider_max_chars)
+                        + getString(R.string.max_chars)));
                 if (s.length() > 0) {
                     button.setEnabled(true);
                 } else {
@@ -224,11 +230,10 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                 !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Location Services not active");
-            builder.setMessage("Please activate Location Services. Indiana requires your location"
-                    +" to show Indies around you.");
+            builder.setTitle(getString(R.string.error_location_disabled_title));
+            builder.setMessage(getString(R.string.error_location_disabled_message));
 
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getString(R.string.error_location_disabled_okay), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(intent);
@@ -274,7 +279,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         appState.getUserLocation().setConnected(false);
-        Toast.makeText(this, "Error: Connection to location service failed!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.error_location_connection_failed), Toast.LENGTH_SHORT).show();
     }
 
     private void runKarmaHandler() {

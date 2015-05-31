@@ -1,5 +1,31 @@
 <resources>
     <string name="app_name">Indiana</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="toolbar_hot_description">Trending around you</string>
+    <string name="toolbar_new_description">New Indies around you</string>
+    <string name="toolbar_my_description">Your Indies</string>
+    <string name="toolbar_karma_default">0</string>
+
+    <string name="tab_hot_title">Hot</string>
+    <string name="tab_new_title">New</string>
+    <string name="tab_my_title">My</string>
+
+    <string name="dialog_create_title">Create new Indy</string>
+    <string name="dialog_create_message_placeholder">Say something</string>
+    <string name="dialog_create_send">Send</string>
+    <string name="dialog_create_cancel">Cancel</string>
+    <string name="dialog_create_char_counter_default">0/200</string>
+
+    <string name="distance_unit">km</string>
+    <string name="divider_max_chars">/</string>
+    <string name="max_chars">200</string>
+    <string name="score_default">0</string>
+
+    <string name="error_post_view_default_message">No Indies found! Pull down to refresh!</string>
+    <string name="error_connection_failed">Error: Could not fetch data…</string>
+    <string name="error_post_failed">Error: Could not create Indy…</string>
+    <string name="error_location_disabled_title">Location Services not active</string>
+    <string name="error_location_disabled_message">Please activate Location Services. Indiana requires your location to show Indies around you.</string>
+    <string name="error_location_disabled_okay">OK</string>
+    <string name="error_location_connection_failed">Error: Connection to location service failed!</string>
 </resources>

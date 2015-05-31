@@ -18,13 +18,13 @@ public class MyPostsView extends PostsView {
 
     public MyPostsView() {
         super("my");
-        mToolbarDescription = "Your Indies";
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         appState = (Indiana) getActivity().getApplicationContext();
         View v = inflater.inflate(R.layout.fragment_my, container, false);
+        mToolbarDescription = v.getResources().getString(R.string.toolbar_my_description);
 
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.my_CardList);
         setAdapter(recyclerView);

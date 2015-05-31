@@ -58,7 +58,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         postViewHolder.vAge.setText(postContainer.age);
         postViewHolder.vScore.setText(postContainer.score);
         postViewHolder.vScore.setTextColor(Color.DKGRAY);
-        postViewHolder.vDistance.setText(postContainer.distance + "km");
+        String distanceUnit = postViewHolder.itemView.getResources().getString(R.string.distance_unit);
+        postViewHolder.vDistance.setText(postContainer.distance + distanceUnit);
         int scoreColor = (postContainer.voted == 0) ? Color.DKGRAY : primaryColor;
         postViewHolder.vScore.setTextColor(scoreColor);
 

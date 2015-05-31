@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/post_upvote"
-            android:text="0"
+            android:text="@string/score_default"
             android:textStyle="bold"
             android:gravity="center_horizontal" />
 

@@ -19,7 +19,7 @@
             android:maxLength="200"
             android:maxLines="4"
             android:singleLine="false"
-            android:hint="Say something"
+            android:hint="@string/dialog_create_message_placeholder"
             android:inputType="textCapSentences|textMultiLine"/>
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_marginStart="@dimen/margin_double"
             android:textSize="@dimen/dialog_create_char_counter"
             android:textColor="@android:color/darker_gray"
-            android:text="0/200"/>
+            android:text="@string/dialog_create_char_counter_default"/>
 
     </LinearLayout>
 
