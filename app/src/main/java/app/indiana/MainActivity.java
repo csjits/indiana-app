@@ -147,8 +147,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                         Location lastLocation = appState.getUserLocation().getLastLocation();
                         PostService.post(messageInput.getText().toString(),
                                 lastLocation.getLongitude(), lastLocation.getLatitude(),
-                                appState.getUserHash(), appState.getToken(),
-                                createPostResponseHandler(d));
+                                appState.getUserHash(), createPostResponseHandler(d));
                     }
                 });
             }
@@ -180,10 +179,6 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                     d.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
                     d.findViewById(R.id.post_spinner).setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-
-                    if (message.toLowerCase().contains("token")) {
-                        appState.fetchToken(appState.getUserHash());
-                    }
                 }
 
             }

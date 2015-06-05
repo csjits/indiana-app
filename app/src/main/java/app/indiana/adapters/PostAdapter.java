@@ -70,8 +70,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             public void onClick(View v) {
                 if (postContainer.voted != 0) return;
                 postContainer.voted = 1;
-                PostService.vote(postContainer.id, "up", appState.getUserHash(),
-                        appState.getToken(), new JsonHttpResponseHandler());
+                PostService.vote(postContainer.id, "up", appState.getUserHash(), new JsonHttpResponseHandler());
                 ImageButton upvoteButton = (ImageButton) v;
                 upvoteButton.setBackgroundResource(R.drawable.upvote_active);
                 postContainer.score = String.valueOf(Integer.parseInt(postContainer.score) + 1);
@@ -87,8 +86,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             public void onClick(View v) {
                 if (postContainer.voted != 0) return;
                 postContainer.voted = -1;
-                PostService.vote(postContainer.id, "down", appState.getUserHash(),
-                        appState.getToken(), new JsonHttpResponseHandler());
+                PostService.vote(postContainer.id, "down", appState.getUserHash(), new JsonHttpResponseHandler());
                 ImageButton downvoteButton = (ImageButton) v;
                 downvoteButton.setBackgroundResource(R.drawable.downvote_active);
                 postContainer.score = String.valueOf(Integer.parseInt(postContainer.score) - 1);
