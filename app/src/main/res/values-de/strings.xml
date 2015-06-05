@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Indiana</string>
+
+    <string name="toolbar_hot_description">Trends in deiner Nähe</string>
+    <string name="toolbar_new_description">Neue Indies in deiner Nähe</string>
+    <string name="toolbar_my_description">Deine Indies</string>
+    <string name="toolbar_karma_default">0</string>
+
+    <string name="tab_hot_title">Hot</string>
+    <string name="tab_new_title">New</string>
+    <string name="tab_my_title">My</string>
+
+    <string name="dialog_create_title">Neuen Indy erstellen</string>
+    <string name="dialog_create_message_placeholder">Sag was</string>
+    <string name="dialog_create_send">Absenden</string>
+    <string name="dialog_create_cancel">Abbrechen</string>
+    <string name="dialog_create_char_counter_default">0/200</string>
+
+    <string name="distance_unit">km</string>
+    <string name="divider_max_chars">/</string>
+    <string name="max_chars">200</string>
+    <string name="score_default">0</string>
+
+    <string name="error_post_view_default_message">Keine Indies gefunden!\nNach unten ziehen zum Aktualisieren!</string>
+    <string name="error_connection_failed">Fehler: Konnte keine Daten empfangen…</string>
+    <string name="error_post_failed">Fehler: Konnte Indy nicht erstellen…</string>
+    <string name="error_location_disabled_title">Standortbestimmung nicht aktiv</string>
+    <string name="error_location_disabled_message">Bitte aktiviere die Standortbestimmung. Indiana benötigt deinen Standort um dir Indies in deiner Nähe zeigen zu können.</string>
+    <string name="error_location_disabled_okay">OK</string>
+    <string name="error_location_connection_failed">Fehler: Konnte deinen Standort nicht bestimmen!</string>
+</resources>

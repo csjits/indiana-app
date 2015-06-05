@@ -13,9 +13,9 @@
 
         <TextView
             android:id="@+id/empty_view_new"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_marginTop="@dimen/margin_quadruple"
             android:text="@string/error_post_view_default_message"
             android:visibility="visible"/>
