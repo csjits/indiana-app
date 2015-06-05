@@ -80,8 +80,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         checkLocationServices();
         buildGoogleApiClient();
         runKarmaHandler();
-
-        if (appState.getToken() == "") appState.fetchToken(appState.getUserHash());
+        com.facebook.FacebookSdk.sdkInitialize(this);
 
         mIsInForeground = true;
     }
@@ -97,6 +96,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     @Override
     protected void onResume() {
         super.onResume();
+        com.facebook.appevents.AppEventsLogger.activateApp(this, "408085569375556");
         mIsInForeground = true;
         appState.getUserLocation().refreshLocation();
         refreshViews();
