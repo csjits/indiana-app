@@ -10,4 +10,5 @@ public class PostContainer {
     public String score;
     public String distance;
     public int voted;
+    public int replies;
 }

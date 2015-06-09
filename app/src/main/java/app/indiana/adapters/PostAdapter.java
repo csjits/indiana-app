@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -53,6 +55,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         postContainer.score = jsonObject.optString("score");
         postContainer.distance = jsonObject.optString("distance");
         postContainer.voted = jsonObject.optInt("voted");
+        postContainer.replies = jsonObject.optInt("replies");
 
         postViewHolder.vMessage.setText(postContainer.message);
         postViewHolder.vAge.setText(postContainer.age);
@@ -94,6 +97,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 postViewHolder.vScore.setTextColor(primaryColor);
             }
         });
+
+        if (postContainer.replies > 0) {
+            postViewHolder.vReply.setText(postContainer.replies + " replies");
+        } else {
+            postViewHolder.vReply.setText("Reply");
+        }
+
+        postViewHolder.vPostLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayout replies = postViewHolder.vRepliesLayout;
+                if (replies.getVisibility() == View.GONE) {
+                    replies.setVisibility(View.VISIBLE);
+                } else {
+                    replies.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     public void updateData(JSONArray jsonArray) {
@@ -102,19 +123,25 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
+        public RelativeLayout vPostLayout;
+        public LinearLayout vRepliesLayout;
         public TextView vMessage;
         public TextView vAge;
         public TextView vScore;
         public TextView vDistance;
+        public TextView vReply;
         public ImageButton vUpvote;
         public ImageButton vDownvote;
 
         public PostViewHolder(View v) {
             super(v);
+            vPostLayout = (RelativeLayout) v.findViewById(R.id.layout_post);
+            vRepliesLayout = (LinearLayout) v.findViewById(R.id.layout_replies);
             vMessage = (TextView) v.findViewById(R.id.post_message);
             vAge = (TextView) v.findViewById(R.id.post_date);
             vScore = (TextView) v.findViewById(R.id.post_score);
             vDistance = (TextView) v.findViewById(R.id.post_distance);
+            vReply = (TextView) v.findViewById(R.id.post_reply);
             vUpvote = (ImageButton) v.findViewById(R.id.post_upvote);
             vDownvote = (ImageButton) v.findViewById(R.id.post_downvote);
         }
