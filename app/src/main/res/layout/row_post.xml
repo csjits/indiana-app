@@ -123,7 +123,9 @@
             <ListView
                 android:id="@+id/post_replies"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:footerDividersEnabled="true"
+                android:headerDividersEnabled="true">
             </ListView>
 
             <LinearLayout

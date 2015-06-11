@@ -21,6 +21,7 @@ import app.indiana.Indiana;
 import app.indiana.R;
 import app.indiana.adapters.PostAdapter;
 import app.indiana.adapters.ReplyAdapter;
+import app.indiana.helpers.ViewHelper;
 import app.indiana.services.PostService;
 
 /**
@@ -147,6 +148,16 @@ public abstract class PostsView extends Fragment {
                 ReplyAdapter replyAdapter = new ReplyAdapter(getActivity().getApplicationContext(), response);
                 ListView replyList = (ListView) view.findViewById(R.id.post_replies);
                 replyList.setAdapter(replyAdapter);
+
+                if (replyList.getHeaderViewsCount() < 1) {
+                    replyList.addHeaderView(new View(getActivity().getApplicationContext()));
+                }
+
+                if (replyList.getFooterViewsCount() < 1) {
+                    replyList.addFooterView(new View(getActivity().getApplicationContext()));
+                }
+
+                ViewHelper.setListViewHeightBasedOnItems(replyList);
                 //Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         };
