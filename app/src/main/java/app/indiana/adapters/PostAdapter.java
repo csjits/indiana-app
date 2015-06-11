@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,6 +21,7 @@ import app.indiana.Indiana;
 import app.indiana.models.PostContainer;
 import app.indiana.services.PostService;
 import app.indiana.R;
+import app.indiana.views.PostsView;
 
 
 /**
@@ -29,6 +32,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     Indiana appState;
     JSONArray mPostArray = new JSONArray();
     View view;
+    PostsView postsView;
+
+    public PostAdapter(PostsView postsView) {
+        this.postsView = postsView;
+    }
 
     @Override
     public int getItemCount() {
@@ -99,9 +107,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         });
 
         if (postContainer.replies > 0) {
-            postViewHolder.vReply.setText(postContainer.replies + " replies");
+            postViewHolder.vReplyCount.setText(postContainer.replies + " replies");
         } else {
-            postViewHolder.vReply.setText("Reply");
+            postViewHolder.vReplyCount.setText("Reply");
         }
 
         postViewHolder.vPostLayout.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +121,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 } else {
                     replies.setVisibility(View.GONE);
                 }
+                postsView.expandPost(postContainer.id, (View) v.getParent());
+            }
+        });
+
+        postViewHolder.vReplyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message = postViewHolder.vReplyMessage.getText().toString();
+                double longitude = appState.getUserLocation().getLastLocation().getLongitude();
+                double latitude = appState.getUserLocation().getLastLocation().getLatitude();
+                PostService.reply(message, longitude, latitude, appState.getUserHash(),
+                        postContainer.id, new JsonHttpResponseHandler());
             }
         });
     }
@@ -129,9 +149,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         public TextView vAge;
         public TextView vScore;
         public TextView vDistance;
-        public TextView vReply;
+        public TextView vReplyCount;
         public ImageButton vUpvote;
         public ImageButton vDownvote;
+        public EditText vReplyMessage;
+        public Button vReplyButton;
 
         public PostViewHolder(View v) {
             super(v);
@@ -141,9 +163,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             vAge = (TextView) v.findViewById(R.id.post_date);
             vScore = (TextView) v.findViewById(R.id.post_score);
             vDistance = (TextView) v.findViewById(R.id.post_distance);
-            vReply = (TextView) v.findViewById(R.id.post_reply);
+            vReplyCount = (TextView) v.findViewById(R.id.post_reply_count);
             vUpvote = (ImageButton) v.findViewById(R.id.post_upvote);
             vDownvote = (ImageButton) v.findViewById(R.id.post_downvote);
+            vReplyMessage = (EditText) v.findViewById(R.id.reply_message);
+            vReplyButton = (Button) v.findViewById(R.id.button_reply);
         }
     }
 

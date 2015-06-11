@@ -6,7 +6,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import org.json.JSONObject;
 import app.indiana.Indiana;
 import app.indiana.R;
 import app.indiana.adapters.PostAdapter;
+import app.indiana.adapters.ReplyAdapter;
 import app.indiana.services.PostService;
 
 /**
@@ -49,7 +52,7 @@ public abstract class PostsView extends Fragment {
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        mAdapter = new PostAdapter();
+        mAdapter = new PostAdapter(this);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -83,10 +86,19 @@ public abstract class PostsView extends Fragment {
     protected void fetchPosts() {
         appState.getUserLocation().refreshLocation();
         Location loc = appState.getUserLocation().getLastLocation();
-        PostService.get(loc.getLongitude(), loc.getLatitude(), mSortType, appState.getUserHash(), createResponseHandler());
+        PostService.get(loc.getLongitude(), loc.getLatitude(), mSortType, appState.getUserHash(),
+                createPostResponseHandler());
     }
 
-    private JsonHttpResponseHandler createResponseHandler() {
+    protected void fetchReplies(String postId, View view) {
+        Log.d("fetchReplies", "OK");
+        appState.getUserLocation().refreshLocation();
+        Location loc = appState.getUserLocation().getLastLocation();
+        PostService.replies(loc.getLongitude(), loc.getLatitude(), appState.getUserHash(), postId,
+                createRepliesResponseHandler(view));
+    }
+
+    private JsonHttpResponseHandler createPostResponseHandler() {
         JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, JSONObject response) {
@@ -126,8 +138,27 @@ public abstract class PostsView extends Fragment {
         return handler;
     }
 
+    private JsonHttpResponseHandler createRepliesResponseHandler(final View view) {
+        Log.d("createRepliesRespon", "OK");
+        JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, JSONObject response) {
+                Log.d("onSuccess", "OK");
+                ReplyAdapter replyAdapter = new ReplyAdapter(getActivity().getApplicationContext(), response);
+                ListView replyList = (ListView) view.findViewById(R.id.post_replies);
+                replyList.setAdapter(replyAdapter);
+                //Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+            }
+        };
+        return handler;
+    }
+
     public void refresh() {
         mSwipeRefreshLayout.setRefreshing(true);
         fetchPosts();
+    }
+
+    public void expandPost(String postId, View view) {
+        fetchReplies(postId, view);
     }
 }

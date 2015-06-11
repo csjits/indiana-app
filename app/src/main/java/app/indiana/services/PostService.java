@@ -41,6 +41,25 @@ public class PostService {
         mClient.post(API_URL + "posts", params, responseHandler);
     }
 
+    public static void reply(String message, double longitude, double latitude, String userHash,
+                             String postId, AsyncHttpResponseHandler responseHandler) {
+        RequestParams params = new RequestParams();
+        params.put("message", message);
+        params.put("long", String.valueOf(longitude));
+        params.put("lat", String.valueOf(latitude));
+        params.put("user", userHash);
+        mClient.post(API_URL + "posts/" + postId + "/reply", params, responseHandler);
+    }
+
+    public static void replies(double longitude, double latitude, String userHash, String postId,
+                               AsyncHttpResponseHandler responseHandler) {
+        RequestParams params = new RequestParams();
+        params.put("long", String.valueOf(longitude));
+        params.put("lat", String.valueOf(latitude));
+        params.put("user", userHash);
+        mClient.get(API_URL + "posts/" + postId, params, responseHandler);
+    }
+
     public static void karma(String userHash, AsyncHttpResponseHandler responseHandler) {
         RequestParams params = new RequestParams();
         params.put("user", userHash);
