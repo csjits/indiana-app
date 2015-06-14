@@ -3,12 +3,7 @@ package app.indiana;
 import android.app.Application;
 import android.content.SharedPreferences;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.json.JSONObject;
-
 import app.indiana.helpers.UserHelper;
-import app.indiana.services.PostService;
 import app.indiana.services.UserLocationService;
 
 /**

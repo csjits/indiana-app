@@ -30,17 +30,14 @@ public class ReplyAdapter extends ArrayAdapter<ReplyContainer>{
 
     public ReplyAdapter(Context context, JSONObject json) {
         this(context, JsonHelper.parseReplies(json));
-        Log.d("JSON", json.toString());
     }
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        Log.d("getView", "OK");
         ReplyContainer replyContainer = getItem(position);
         ReplyViewHolder replyViewHolder;
 
         if (view == null) {
-            Log.d("view", "null");
             replyViewHolder = new ReplyViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             view = inflater.inflate(R.layout.row_reply, parent, false);
@@ -49,7 +46,6 @@ public class ReplyAdapter extends ArrayAdapter<ReplyContainer>{
         } else {
             replyViewHolder = (ReplyViewHolder) view.getTag();
         }
-        Log.d("message", replyContainer.message);
         replyViewHolder.vReplyText.setText(replyContainer.message);
 
         return view;

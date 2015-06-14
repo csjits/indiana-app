@@ -6,7 +6,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -92,7 +91,6 @@ public abstract class PostsView extends Fragment {
     }
 
     protected void fetchReplies(String postId, View view) {
-        Log.d("fetchReplies", "OK");
         appState.getUserLocation().refreshLocation();
         Location loc = appState.getUserLocation().getLastLocation();
         PostService.replies(loc.getLongitude(), loc.getLatitude(), appState.getUserHash(), postId,
@@ -140,11 +138,9 @@ public abstract class PostsView extends Fragment {
     }
 
     private JsonHttpResponseHandler createRepliesResponseHandler(final View view) {
-        Log.d("createRepliesRespon", "OK");
         JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, JSONObject response) {
-                Log.d("onSuccess", "OK");
                 ReplyAdapter replyAdapter = new ReplyAdapter(getActivity().getApplicationContext(), response);
                 ListView replyList = (ListView) view.findViewById(R.id.post_replies);
                 replyList.setAdapter(replyAdapter);
