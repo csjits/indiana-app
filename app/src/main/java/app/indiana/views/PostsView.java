@@ -141,9 +141,11 @@ public abstract class PostsView extends Fragment {
         JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, JSONObject response) {
-                ReplyAdapter replyAdapter = new ReplyAdapter(getActivity().getApplicationContext(), response);
                 ListView replyList = (ListView) view.findViewById(R.id.post_replies);
+
+                ReplyAdapter replyAdapter = new ReplyAdapter(getActivity().getApplicationContext(), response);
                 replyList.setAdapter(replyAdapter);
+
 
                 if (replyList.getHeaderViewsCount() < 1) {
                     replyList.addHeaderView(new View(getActivity().getApplicationContext()));
@@ -154,7 +156,6 @@ public abstract class PostsView extends Fragment {
                 }
 
                 ViewHelper.setListViewHeightBasedOnItems(replyList);
-                //Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         };
         return handler;

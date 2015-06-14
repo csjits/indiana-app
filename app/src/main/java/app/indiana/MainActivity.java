@@ -33,6 +33,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONObject;
 
 import app.indiana.adapters.ViewPagerAdapter;
+import app.indiana.helpers.ViewHelper;
 import app.indiana.services.PostService;
 import app.indiana.views.HotPostsView;
 import app.indiana.views.MyPostsView;
@@ -159,7 +160,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         Button buttonPositive = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
         EditText messageInput = (EditText) dialog.getWindow().findViewById(R.id.message_input);
         TextView charCounter = (TextView) dialog.getWindow().findViewById(R.id.char_counter);
-        messageInput.addTextChangedListener(createTextWatcher(charCounter, buttonPositive));
+        messageInput.addTextChangedListener(ViewHelper.createTextWatcher(charCounter,
+                buttonPositive, getString(R.string.divider_max_chars), getString(R.string.max_chars)));
         buttonPositive.setEnabled(false);
     }
 
@@ -194,27 +196,6 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                 d.findViewById(R.id.message_input).setEnabled(true);
                 d.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
                 d.findViewById(R.id.post_spinner).setVisibility(View.GONE);
-            }
-        };
-    }
-
-    private TextWatcher createTextWatcher(final TextView textView, final Button button) {
-        return new TextWatcher() {
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                textView.setText(String.valueOf(s.length()
-                        + getString(R.string.divider_max_chars)
-                        + getString(R.string.max_chars)));
-                if (s.length() > 0) {
-                    button.setEnabled(true);
-                } else {
-                    button.setEnabled(false);
-                }
-            }
-
-            public void afterTextChanged(Editable s) {
             }
         };
     }

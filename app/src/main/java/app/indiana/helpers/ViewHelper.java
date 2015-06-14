@@ -1,9 +1,15 @@
 package app.indiana.helpers;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import app.indiana.R;
 
 /**
  * Created by chris on 11.06.2015.
@@ -41,6 +47,26 @@ public class ViewHelper {
             return false;
         }
 
+    }
+
+    public static TextWatcher createTextWatcher(final TextView textView, final Button button,
+                                                final String dividerMax, final String maxChars) {
+        return new TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                textView.setText(String.valueOf(s.length() + dividerMax + maxChars));
+                if (s.length() > 0) {
+                    button.setEnabled(true);
+                } else {
+                    button.setEnabled(false);
+                }
+            }
+
+            public void afterTextChanged(Editable s) {
+            }
+        };
     }
 
 }

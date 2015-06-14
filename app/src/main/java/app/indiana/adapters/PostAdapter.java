@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -18,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import app.indiana.Indiana;
+import app.indiana.helpers.ViewHelper;
 import app.indiana.models.PostContainer;
 import app.indiana.services.PostService;
 import app.indiana.R;
@@ -108,13 +110,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         if (postContainer.replies == 1) {
             postViewHolder.vReplyCount.setText(postContainer.replies + " "
-                    + R.string.reply_num_replies_one);
+                    + view.getResources().getString(R.string.reply_num_replies_one));
         } else if (postContainer.replies > 1) {
             postViewHolder.vReplyCount.setText(postContainer.replies + " "
-                    + R.string.reply_num_replies_multi);
+                    + view.getResources().getString(R.string.reply_num_replies_multi));
         }
         else {
-            postViewHolder.vReplyCount.setText(R.string.reply_zero_replies);
+            postViewHolder.vReplyCount.setText(view.getResources().getString(R.string.reply_zero_replies));
         }
 
         postViewHolder.vPostLayout.setOnClickListener(new View.OnClickListener() {
@@ -137,16 +139,59 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         });
 
+        postViewHolder.vReplyMessage.addTextChangedListener(
+                ViewHelper.createTextWatcher(postViewHolder.vCharCounterReply,
+                        postViewHolder.vReplyButton,
+                        view.getResources().getString(R.string.divider_max_chars),
+                        view.getResources().getString(R.string.max_chars)));
+        postViewHolder.vReplyButton.setEnabled(false);
+
         postViewHolder.vReplyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                View parentView = (View) v.getParent();
                 String message = postViewHolder.vReplyMessage.getText().toString();
                 double longitude = appState.getUserLocation().getLastLocation().getLongitude();
                 double latitude = appState.getUserLocation().getLastLocation().getLatitude();
+                parentView.findViewById(R.id.reply_spinner).setVisibility(View.VISIBLE);
+                parentView.findViewById(R.id.reply_message).setEnabled(false);
+                parentView.findViewById(R.id.button_reply).setEnabled(false);
                 PostService.reply(message, longitude, latitude, appState.getUserHash(),
-                        postContainer.id, new JsonHttpResponseHandler());
+                        postContainer.id, createReplyResponseHandler(postContainer.id, parentView));
             }
         });
+    }
+
+    private JsonHttpResponseHandler createReplyResponseHandler(final String postId, final View view) {
+        return new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, JSONObject response) {
+                view.findViewById(R.id.reply_spinner).setVisibility(View.GONE);
+                TextView messageView = (TextView) view.findViewById(R.id.reply_message);
+                messageView.setEnabled(true);
+                view.findViewById(R.id.button_reply).setEnabled(true);
+                String message = response.optString("message");
+                if (message.equals("OK")) {
+                    postsView.expandPost(postId, (View) view.getParent());
+                    messageView.setText("");
+                    messageView.clearFocus();
+                } else {
+                    Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode,
+                                  org.apache.http.Header[] headers,
+                                  String responseString,
+                                  Throwable throwable) {
+                String msg = view.getResources().getString(R.string.error_reply_failed);
+                Toast.makeText(view.getContext(), msg, Toast.LENGTH_SHORT).show();
+                view.findViewById(R.id.reply_spinner).setVisibility(View.GONE);
+                view.findViewById(R.id.reply_message).setEnabled(true);
+                view.findViewById(R.id.button_reply).setEnabled(true);
+            }
+        };
     }
 
     public void updateData(JSONArray jsonArray) {
@@ -166,6 +211,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         public ImageButton vDownvote;
         public EditText vReplyMessage;
         public Button vReplyButton;
+        public TextView vCharCounterReply;
 
         public PostViewHolder(View v) {
             super(v);
@@ -180,6 +226,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             vDownvote = (ImageButton) v.findViewById(R.id.post_downvote);
             vReplyMessage = (EditText) v.findViewById(R.id.reply_message);
             vReplyButton = (Button) v.findViewById(R.id.button_reply);
+            vCharCounterReply = (TextView) v.findViewById(R.id.char_counter_reply);
         }
     }
 
