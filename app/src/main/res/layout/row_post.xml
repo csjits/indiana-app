@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/padding"
-    android:layout_marginLeft="@dimen/margin_half"
-    android:layout_marginRight="@dimen/margin_half"
-    android:layout_marginTop="@dimen/margin_half"
+    android:layout_marginLeft="@dimen/margin"
+    android:layout_marginRight="@dimen/margin"
+    android:layout_marginTop="@dimen/margin"
     card_view:cardCornerRadius="@dimen/card_corner_radius">
 
     <LinearLayout
@@ -28,14 +28,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/margin_quadruple"
-                android:layout_marginBottom="@dimen/margin"/>
+                android:layout_marginBottom="@dimen/margin_double"/>
 
             <ImageButton
                 android:id="@+id/post_upvote"
                 android:layout_width="@dimen/card_vote_width"
                 android:layout_height="@dimen/card_vote_height"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_half"
                 android:background="@drawable/upvote" />
 
             <TextView
@@ -54,7 +53,6 @@
                 android:layout_height="@dimen/card_vote_height"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/post_score"
-                android:layout_marginRight="@dimen/margin_half"
                 android:background="@drawable/downvote"/>
 
             <RelativeLayout
