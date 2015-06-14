@@ -10,7 +10,6 @@ public class ReplyContainer {
     public String message;
     public String age;
     public String score;
-    public String distance;
     public int voted;
 
     public ReplyContainer(JSONObject json) {
@@ -18,7 +17,6 @@ public class ReplyContainer {
         message = json.optString("message");
         age = json.optString("age");
         score = json.optString("score");
-        distance = json.optString("distance");
         voted = json.optInt("voted");
     }
 }
