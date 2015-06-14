@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentBottom="true"
-                    android:text="Reply"
+                    android:text="@string/reply_zero_replies"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="@dimen/card_meta_text_size"/>
 
@@ -125,7 +125,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:footerDividersEnabled="true"
-                android:headerDividersEnabled="true">
+                android:headerDividersEnabled="true"
+                android:listSelector="@android:color/transparent"
+                android:scrollbars="none">
             </ListView>
 
             <LinearLayout
@@ -139,7 +141,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Your reply"/>
+                    android:hint="@string/reply_placeholder"/>
 
                 <Button
                     android:id="@+id/button_reply"
@@ -147,7 +149,7 @@
                     android:layout_height="wrap_content"
                     style="?android:attr/buttonBarPositiveButtonStyle"
                     android:layout_gravity="bottom"
-                    android:text="Send"
+                    android:text="@string/reply_post_button"
                     tools:targetApi="21" />
 
             </LinearLayout>

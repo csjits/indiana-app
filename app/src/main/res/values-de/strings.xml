@@ -10,9 +10,9 @@
     <string name="tab_new_title">New</string>
     <string name="tab_my_title">My</string>
 
-    <string name="dialog_create_title">Neuen Indy erstellen</string>
+    <string name="dialog_create_title">Neuen Indy posten</string>
     <string name="dialog_create_message_placeholder">Sag was</string>
-    <string name="dialog_create_send">Absenden</string>
+    <string name="dialog_create_send">Posten</string>
     <string name="dialog_create_cancel">Abbrechen</string>
     <string name="dialog_create_char_counter_default">0/200</string>
 
@@ -20,6 +20,12 @@
     <string name="divider_max_chars">/</string>
     <string name="max_chars">200</string>
     <string name="score_default">0</string>
+
+    <string name="reply_post_button">Posten</string>
+    <string name="reply_placeholder">Deine Antwort</string>
+    <string name="reply_zero_replies">Antworten</string>
+    <string name="reply_num_replies_one">Antwort</string>
+    <string name="reply_num_replies_multi">Antworten</string>
 
     <string name="error_post_view_default_message">Keine Indies gefunden!\nNach unten ziehen zum Aktualisieren!</string>
     <string name="error_connection_failed">Fehler: Konnte keine Daten empfangen…</string>
