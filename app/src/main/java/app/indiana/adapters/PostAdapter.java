@@ -106,22 +106,34 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         });
 
-        if (postContainer.replies > 0) {
-            postViewHolder.vReplyCount.setText(postContainer.replies + " replies");
-        } else {
-            postViewHolder.vReplyCount.setText("Reply");
+        if (postContainer.replies == 1) {
+            postViewHolder.vReplyCount.setText(postContainer.replies + " "
+                    + R.string.reply_num_replies_one);
+        } else if (postContainer.replies > 1) {
+            postViewHolder.vReplyCount.setText(postContainer.replies + " "
+                    + R.string.reply_num_replies_multi);
+        }
+        else {
+            postViewHolder.vReplyCount.setText(R.string.reply_zero_replies);
         }
 
         postViewHolder.vPostLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LinearLayout replies = postViewHolder.vRepliesLayout;
+
+                if (appState.lastExpandedPost != null && appState.lastExpandedPost != replies) {
+                    appState.lastExpandedPost.setVisibility(View.GONE);
+                }
+
                 if (replies.getVisibility() == View.GONE) {
                     replies.setVisibility(View.VISIBLE);
                 } else {
                     replies.setVisibility(View.GONE);
                 }
+
                 postsView.expandPost(postContainer.id, (View) v.getParent());
+                appState.lastExpandedPost = replies;
             }
         });
 
