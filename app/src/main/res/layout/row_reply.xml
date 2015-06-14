@@ -1,13 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding">
 
     <TextView
         android:id="@+id/reply_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/primary_text_light"
-        android:layout_margin="@dimen/margin"/>
+        android:layout_marginRight="@dimen/margin_quadruple"
+        android:layout_marginBottom="@dimen/margin_half"/>
+
+    <ImageButton
+        android:id="@+id/reply_upvote"
+        android:layout_width="@dimen/card_vote_width"
+        android:layout_height="@dimen/card_vote_height"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/upvote" />
+
+    <TextView
+        android:id="@+id/reply_score"
+        android:layout_width="@dimen/card_score_width"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/reply_upvote"
+        android:text="@string/score_default"
+        android:textStyle="bold"
+        android:gravity="center_horizontal" />
+
+    <ImageButton
+        android:id="@+id/reply_downvote"
+        android:layout_width="@dimen/card_vote_width"
+        android:layout_height="@dimen/card_vote_height"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/reply_score"
+        android:background="@drawable/downvote"/>
+
+    <ImageView
+        android:id="@+id/reply_date_icon"
+        android:layout_width="@dimen/card_icon_width"
+        android:layout_height="@dimen/card_icon_width"
+        android:layout_below="@id/reply_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/time"/>
+
+    <TextView
+        android:id="@+id/reply_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/reply_date_icon"
+        android:layout_below="@id/reply_text"
+        android:layout_alignParentBottom="true"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="@dimen/card_meta_text_size"/>
 
 </RelativeLayout>
