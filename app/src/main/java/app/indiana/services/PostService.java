@@ -9,7 +9,7 @@ import com.loopj.android.http.RequestParams;
  */
 public class PostService {
 
-    private static final String API_URL = "http://indiana.mirfac.uberspace.de/api/";
+    private static final String API_URL = "http://indiana-app.com/api/";
     //private static final String API_URL = "http://192.168.178.61:61017/";
 
     private static AsyncHttpClient mClient = new AsyncHttpClient();
