@@ -29,7 +29,8 @@
 
     <string name="error_post_view_default_message">No Indies found! Pull down to refresh!</string>
     <string name="error_connection_failed">Error: Could not fetch data…</string>
-    <string name="error_post_failed">Error: Could not create Indy…</string>
+    <string name="error_post_failed">Error: Could not post Indy…</string>
+    <string name="error_reply_failed">Error: Could not post reply…</string>
     <string name="error_location_disabled_title">Location Services not active</string>
     <string name="error_location_disabled_message">Please activate Location Services. Indiana requires your location to show Indies around you.</string>
     <string name="error_location_disabled_okay">OK</string>

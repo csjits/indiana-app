@@ -29,7 +29,8 @@
 
     <string name="error_post_view_default_message">Keine Indies gefunden!\nNach unten ziehen zum Aktualisieren!</string>
     <string name="error_connection_failed">Fehler: Konnte keine Daten empfangen…</string>
-    <string name="error_post_failed">Fehler: Konnte Indy nicht erstellen…</string>
+    <string name="error_post_failed">Fehler: Konnte Indy nicht posten…</string>
+    <string name="error_reply_failed">Fehler: Konnte Antwort nicht posten…</string>
     <string name="error_location_disabled_title">Standortbestimmung nicht aktiv</string>
     <string name="error_location_disabled_message">Bitte aktiviere die Standortbestimmung. Indiana benötigt deinen Standort um dir Indies in deiner Nähe zeigen zu können.</string>
     <string name="error_location_disabled_okay">OK</string>
