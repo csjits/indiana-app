@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -91,6 +92,7 @@ public abstract class PostsView extends Fragment {
     }
 
     protected void fetchReplies(String postId, View view) {
+        view.findViewById(R.id.replies_spinner).setVisibility(View.VISIBLE);
         appState.getUserLocation().refreshLocation();
         Location loc = appState.getUserLocation().getLastLocation();
         PostService.replies(loc.getLongitude(), loc.getLatitude(), appState.getUserHash(), postId,
@@ -141,11 +143,11 @@ public abstract class PostsView extends Fragment {
         JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, JSONObject response) {
+                view.findViewById(R.id.replies_spinner).setVisibility(View.GONE);
                 ListView replyList = (ListView) view.findViewById(R.id.post_replies);
 
                 ReplyAdapter replyAdapter = new ReplyAdapter(getActivity().getApplicationContext(), response);
                 replyList.setAdapter(replyAdapter);
-
 
                 if (replyList.getHeaderViewsCount() < 1) {
                     replyList.addHeaderView(new View(getActivity().getApplicationContext()));
@@ -156,6 +158,16 @@ public abstract class PostsView extends Fragment {
                 }
 
                 ViewHelper.setListViewHeightBasedOnItems(replyList);
+            }
+
+            @Override
+            public void onFailure(int statusCode,
+                                  org.apache.http.Header[] headers,
+                                  String responseString,
+                                  Throwable throwable) {
+                view.findViewById(R.id.replies_spinner).setVisibility(View.GONE);
+                String msg = getString(R.string.error_connection_failed);
+                Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         };
         return handler;

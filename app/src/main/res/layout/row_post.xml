@@ -109,75 +109,80 @@
 
             </RelativeLayout>
 
+            <ProgressBar
+                android:id="@+id/replies_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminate="true"
+                android:visibility="gone"/>
+
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/layout_replies"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
             android:visibility="gone">
 
             <ListView
                 android:id="@+id/post_replies"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:footerDividersEnabled="true"
                 android:headerDividersEnabled="true"
                 android:listSelector="@android:color/transparent"
                 android:scrollbars="none">
             </ListView>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <EditText
+                android:id="@+id/reply_message"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="@dimen/margin">
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_toLeftOf="@+id/button_reply"
+                android:layout_below="@id/post_replies"
+                android:scrollbars="vertical"
+                android:maxLength="200"
+                android:maxLines="4"
+                android:singleLine="false"
+                android:inputType="textCapSentences|textMultiLine"
+                android:hint="@string/reply_placeholder"/>
 
-                <EditText
-                    android:id="@+id/reply_message"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/button_reply"
-                    android:scrollbars="vertical"
-                    android:maxLength="200"
-                    android:maxLines="4"
-                    android:singleLine="false"
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:hint="@string/reply_placeholder"/>
+            <Button
+                android:id="@+id/button_reply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin"
+                android:layout_gravity="bottom"
+                android:layout_alignParentRight="true"
+                android:layout_alignBottom="@id/reply_message"
+                android:text="@string/reply_post_button"
+                style="?android:attr/buttonBarPositiveButtonStyle"
+                tools:targetApi="21" />
 
-                <Button
-                    android:id="@+id/button_reply"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?android:attr/buttonBarPositiveButtonStyle"
-                    android:layout_gravity="bottom"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignBottom="@id/reply_message"
-                    android:text="@string/reply_post_button"
-                    tools:targetApi="21" />
+            <TextView
+                android:id="@+id/char_counter_reply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/reply_message"
+                android:layout_marginLeft="@dimen/margin_double"
+                android:layout_marginBottom="@dimen/margin"
+                android:textSize="@dimen/dialog_create_char_counter"
+                android:textColor="@android:color/darker_gray"
+                android:text="@string/dialog_create_char_counter_default"/>
 
-                <TextView
-                    android:id="@+id/char_counter_reply"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/reply_message"
-                    android:layout_marginLeft="@dimen/margin"
-                    android:textSize="@dimen/dialog_create_char_counter"
-                    android:textColor="@android:color/darker_gray"
-                    android:text="@string/dialog_create_char_counter_default"/>
+            <ProgressBar
+                android:id="@+id/reply_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@id/char_counter_reply"
+                android:indeterminate="true"
+                android:visibility="gone"/>
 
-                <ProgressBar
-                    android:id="@+id/reply_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:indeterminate="true"
-                    android:visibility="gone"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 

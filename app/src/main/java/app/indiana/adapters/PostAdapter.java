@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -122,7 +120,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         postViewHolder.vPostLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LinearLayout replies = postViewHolder.vRepliesLayout;
+                ViewGroup replies = postViewHolder.vRepliesLayout;
 
                 if (appState.lastExpandedPost != null && appState.lastExpandedPost != replies) {
                     appState.lastExpandedPost.setVisibility(View.GONE);
@@ -130,12 +128,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
                 if (replies.getVisibility() == View.GONE) {
                     replies.setVisibility(View.VISIBLE);
+                    postsView.expandPost(postContainer.id, (View) v.getParent());
+                    appState.lastExpandedPost = replies;
                 } else {
                     replies.setVisibility(View.GONE);
                 }
-
-                postsView.expandPost(postContainer.id, (View) v.getParent());
-                appState.lastExpandedPost = replies;
             }
         });
 
@@ -200,8 +197,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
-        public RelativeLayout vPostLayout;
-        public LinearLayout vRepliesLayout;
+        public ViewGroup vPostLayout;
+        public ViewGroup vRepliesLayout;
         public TextView vMessage;
         public TextView vAge;
         public TextView vScore;
@@ -215,8 +212,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         public PostViewHolder(View v) {
             super(v);
-            vPostLayout = (RelativeLayout) v.findViewById(R.id.layout_post);
-            vRepliesLayout = (LinearLayout) v.findViewById(R.id.layout_replies);
+            vPostLayout = (ViewGroup) v.findViewById(R.id.layout_post);
+            vRepliesLayout = (ViewGroup) v.findViewById(R.id.layout_replies);
             vMessage = (TextView) v.findViewById(R.id.post_message);
             vAge = (TextView) v.findViewById(R.id.post_date);
             vScore = (TextView) v.findViewById(R.id.post_score);
