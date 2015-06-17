@@ -28,4 +28,9 @@ public class JsonHelper {
         return replyArray;
     }
 
+    public static int countReplies(JSONObject json) {
+        JSONArray replies = json.optJSONArray("replies");
+        return replies.length();
+    }
+
 }

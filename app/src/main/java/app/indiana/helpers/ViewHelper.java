@@ -69,4 +69,13 @@ public class ViewHelper {
         };
     }
 
+    public static String getReplyText(int replies, View view) {
+        if (replies == 1) {
+            return replies + " " + view.getResources().getString(R.string.reply_num_replies_one);
+        } else if (replies > 1) {
+            return replies + " " + view.getResources().getString(R.string.reply_num_replies_multi);
+        }
+        return view.getResources().getString(R.string.reply_zero_replies);
+    }
+
 }

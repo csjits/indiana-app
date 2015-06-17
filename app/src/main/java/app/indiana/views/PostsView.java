@@ -7,7 +7,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +20,7 @@ import app.indiana.Indiana;
 import app.indiana.R;
 import app.indiana.adapters.PostAdapter;
 import app.indiana.adapters.ReplyAdapter;
+import app.indiana.helpers.JsonHelper;
 import app.indiana.helpers.ViewHelper;
 import app.indiana.services.PostService;
 
@@ -145,6 +145,10 @@ public abstract class PostsView extends Fragment {
             public void onSuccess(int statusCode, JSONObject response) {
                 view.findViewById(R.id.replies_spinner).setVisibility(View.GONE);
                 ListView replyList = (ListView) view.findViewById(R.id.post_replies);
+
+                int replies = JsonHelper.countReplies(response);
+                String replyText = ViewHelper.getReplyText(replies, view);
+                ((TextView) view.findViewById(R.id.post_reply_count)).setText(replyText);
 
                 ReplyAdapter replyAdapter = new ReplyAdapter(getActivity().getApplicationContext(), response);
                 replyList.setAdapter(replyAdapter);

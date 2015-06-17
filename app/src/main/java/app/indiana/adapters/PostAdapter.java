@@ -106,16 +106,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         });
 
-        if (postContainer.replies == 1) {
-            postViewHolder.vReplyCount.setText(postContainer.replies + " "
-                    + view.getResources().getString(R.string.reply_num_replies_one));
-        } else if (postContainer.replies > 1) {
-            postViewHolder.vReplyCount.setText(postContainer.replies + " "
-                    + view.getResources().getString(R.string.reply_num_replies_multi));
-        }
-        else {
-            postViewHolder.vReplyCount.setText(view.getResources().getString(R.string.reply_zero_replies));
-        }
+        postViewHolder.vReplyCount.setText(ViewHelper.getReplyText(postContainer.replies, view));
 
         postViewHolder.vPostLayout.setOnClickListener(new View.OnClickListener() {
             @Override
