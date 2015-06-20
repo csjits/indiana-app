@@ -78,7 +78,7 @@ public abstract class PostsView extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 int topRowVerticalPosition =
                         (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
-                mSwipeRefreshLayout.setEnabled(dx == 0 && topRowVerticalPosition >= 0);
+                mSwipeRefreshLayout.setEnabled(dy == 0 && topRowVerticalPosition >= 0);
             }
         });
 
