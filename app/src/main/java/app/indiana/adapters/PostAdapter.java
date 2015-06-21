@@ -17,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import app.indiana.Indiana;
+import app.indiana.helpers.JsonHelper;
 import app.indiana.helpers.ViewHelper;
 import app.indiana.models.PostContainer;
 import app.indiana.services.PostService;
@@ -53,17 +54,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(final PostViewHolder postViewHolder, int position) {
         appState = (Indiana) postViewHolder.itemView.getContext().getApplicationContext();
-        final PostContainer postContainer = new PostContainer();
         final int primaryColor = postViewHolder.itemView.getResources().getColor(R.color.color_primary);
         JSONObject jsonObject = mPostArray.optJSONObject(position);
 
-        postContainer.id = jsonObject.optString("id");
-        postContainer.message = jsonObject.optString("message");
-        postContainer.age = jsonObject.optString("age");
-        postContainer.score = jsonObject.optString("score");
-        postContainer.distance = jsonObject.optString("distance");
-        postContainer.voted = jsonObject.optInt("voted");
-        postContainer.replies = jsonObject.optInt("replies");
+        final PostContainer postContainer = JsonHelper.toPost(jsonObject);
 
         postViewHolder.vMessage.setText(postContainer.message);
         postViewHolder.vAge.setText(postContainer.age);

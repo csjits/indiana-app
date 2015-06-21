@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import app.indiana.models.PostContainer;
 import app.indiana.models.ReplyContainer;
 
 /**
@@ -31,6 +32,18 @@ public class JsonHelper {
     public static int countReplies(JSONObject json) {
         JSONArray replies = json.optJSONArray("replies");
         return replies.length();
+    }
+
+    public static PostContainer toPost(JSONObject jsonObject) {
+        PostContainer postContainer = new PostContainer();
+        postContainer.id = jsonObject.optString("id");
+        postContainer.message = jsonObject.optString("message");
+        postContainer.age = jsonObject.optString("age");
+        postContainer.score = jsonObject.optString("score");
+        postContainer.distance = jsonObject.optString("distance");
+        postContainer.voted = jsonObject.optInt("voted");
+        postContainer.replies = jsonObject.optInt("replies");
+        return postContainer;
     }
 
 }
