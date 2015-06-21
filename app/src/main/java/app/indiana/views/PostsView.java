@@ -185,4 +185,8 @@ public abstract class PostsView extends Fragment {
     public void expandPost(String postId, View view) {
         fetchReplies(postId, view);
     }
+
+    public String getType() {
+        return mSortType;
+    }
 }

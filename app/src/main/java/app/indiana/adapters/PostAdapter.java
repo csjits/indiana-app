@@ -179,6 +179,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     public void updateData(JSONArray jsonArray) {
         mPostArray = jsonArray;
         notifyDataSetChanged();
+        appState.postCacheService.cache(postsView.getType(), jsonArray);
     }
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {

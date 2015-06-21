@@ -32,6 +32,7 @@ import org.json.JSONObject;
 
 import app.indiana.adapters.ViewPagerAdapter;
 import app.indiana.helpers.ViewHelper;
+import app.indiana.services.PostCacheService;
 import app.indiana.services.PostService;
 import app.indiana.views.HotPostsView;
 import app.indiana.views.MyPostsView;
@@ -55,6 +56,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         setSupportActionBar(toolbar);
 
         appState = (Indiana) getApplicationContext();
+        appState.postCacheService = new PostCacheService(this);
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         CharSequence tabTitles[] = {
@@ -105,6 +107,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     protected void onPause() {
         super.onPause();
         mIsInForeground = false;
+        appState.postCacheService.save();
     }
 
     @Override
