@@ -32,6 +32,8 @@ import org.json.JSONObject;
 
 import app.indiana.adapters.ViewPagerAdapter;
 import app.indiana.helpers.ViewHelper;
+import app.indiana.services.BackgroundDataService;
+import app.indiana.services.NotificationService;
 import app.indiana.services.PostCacheService;
 import app.indiana.services.PostService;
 import app.indiana.views.HotPostsView;
@@ -101,6 +103,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         mIsInForeground = true;
         appState.getUserLocation().refreshLocation();
         refreshViews();
+        new BackgroundDataService(this).stop();
     }
 
     @Override
@@ -108,6 +111,9 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         super.onPause();
         mIsInForeground = false;
         appState.postCacheService.save();
+        BackgroundDataService backgroundDataService = new BackgroundDataService(this);
+        backgroundDataService.setIntent(NotificationService.class);
+        backgroundDataService.run(android.app.AlarmManager.INTERVAL_FIFTEEN_MINUTES);
     }
 
     @Override
