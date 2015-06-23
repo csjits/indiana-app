@@ -29,24 +29,23 @@ public class PostCacheService {
     }
 
     public void load() {
-        for (String postType : postTypes) {
-            mPostCache.put(postType, read(mContext, postType));
+        for (int i = 0; i < postTypes.length; i++) {
+            load(postTypes[i]);
         }
     }
 
-    public void save() {
-        for (String postType : postTypes) {
-            write(mContext, mPostCache.get(postType), postType);
-        }
+    public void load(String postType) {
+        mPostCache.put(postType, read(mContext, postType));
     }
 
     public void cache(String postType, ArrayList<PostContainer> posts) {
         mPostCache.put(postType, posts);
+        write(mContext, mPostCache.get(postType), postType);
     }
 
     public void cache(String postType, JSONArray posts) {
         ArrayList<PostContainer> postContainers = new ArrayList<>();
-        for (int i = posts.length(); i < posts.length(); i++) {
+        for (int i = 0; i < posts.length(); i++) {
             try {
                 postContainers.add(JsonHelper.toPost(posts.getJSONObject(i)));
             } catch (JSONException ex) {
@@ -60,10 +59,12 @@ public class PostCacheService {
         ArrayList<PostContainer> postsCached = mPostCache.get(postType);
         ArrayList<Integer> diff = new ArrayList<>();
 
-        for (PostContainer postCached : postsCached) {
+        for (int i = 0; i < postsCached.size(); i++) {
+            PostContainer postCached = postsCached.get(i);
 
             int diffVal = 1;
-            for (PostContainer postNew : postsNew) {
+            for (int j = 0; j < postsNew.size(); j++) {
+                PostContainer postNew = postsNew.get(j);
 
                 if (postCached.id.equals(postNew.id)) {
                     if (!postCached.score.equals(postNew.score)) diffVal *= SCORE_DIFF_MULTI;
@@ -78,9 +79,9 @@ public class PostCacheService {
     }
 
     private static ArrayList<PostContainer> read(Context context, String postType) {
-        Object myPosts = ObjectFileService.readObjectFromFile(context, postType+".cache");
+        Object posts = ObjectFileService.readObjectFromFile(context, postType+".cache");
         try {
-            return (ArrayList<PostContainer>) myPosts;
+            return (ArrayList<PostContainer>) posts;
         } catch (ClassCastException ex) {
             ex.printStackTrace();
             return new ArrayList<>();
