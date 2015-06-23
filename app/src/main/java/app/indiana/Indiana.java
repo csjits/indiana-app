@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.view.ViewGroup;
 
 import app.indiana.helpers.UserHelper;
-import app.indiana.services.PostCacheService;
 import app.indiana.services.UserLocationService;
 
 /**
@@ -16,7 +15,6 @@ public class Indiana extends Application {
     private UserLocationService mUserLocationService = new UserLocationService();
     private String mUserHash = "";
     public ViewGroup lastExpandedPost;
-    public PostCacheService postCacheService;
 
     public UserLocationService getUserLocation() {
         return mUserLocationService;
