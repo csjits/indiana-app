@@ -46,4 +46,16 @@ public class JsonHelper {
         return postContainer;
     }
 
+    public static ArrayList<PostContainer> toPostList(JSONArray postsNew) {
+        ArrayList<PostContainer> postContainers = new ArrayList<>();
+        for (int i = 0; i < postsNew.length(); i++) {
+            try {
+                postContainers.add(toPost(postsNew.getJSONObject(i)));
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return postContainers;
+    }
+
 }
