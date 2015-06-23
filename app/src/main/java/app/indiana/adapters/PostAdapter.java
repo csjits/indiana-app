@@ -20,6 +20,7 @@ import app.indiana.Indiana;
 import app.indiana.helpers.JsonHelper;
 import app.indiana.helpers.ViewHelper;
 import app.indiana.models.PostContainer;
+import app.indiana.services.PostCacheService;
 import app.indiana.services.PostService;
 import app.indiana.R;
 import app.indiana.views.PostsView;
@@ -37,6 +38,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     public PostAdapter(PostsView postsView) {
         this.postsView = postsView;
+        appState = (Indiana) postsView.getActivity().getApplicationContext();
     }
 
     @Override
@@ -53,7 +55,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     @Override
     public void onBindViewHolder(final PostViewHolder postViewHolder, int position) {
-        appState = (Indiana) postViewHolder.itemView.getContext().getApplicationContext();
         final int primaryColor = postViewHolder.itemView.getResources().getColor(R.color.color_primary);
         JSONObject jsonObject = mPostArray.optJSONObject(position);
 
@@ -180,7 +181,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         mPostArray = jsonArray;
         notifyDataSetChanged();
         try {
-            appState.postCacheService.cache(postsView.getType(), jsonArray);
+            new PostCacheService(appState.getApplicationContext()).cache(postsView.getType(), jsonArray);
         } catch (NullPointerException ex) {
             ex.printStackTrace();
         }
