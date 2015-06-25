@@ -26,6 +26,12 @@
     <string name="reply_zero_replies">Antworten</string>
     <string name="reply_num_replies_one">Antwort</string>
     <string name="reply_num_replies_multi">Antworten</string>
+    <string name="reply_default">Antworten</string>
+    <plurals name="reply">
+        <item quantity="zero">Jetzt antworten</item>
+        <item quantity="one">%d Antwort</item>
+        <item quantity="other">%d Antworten</item>
+    </plurals>
 
     <string name="error_post_view_default_message">Keine Indies gefunden!\nNach unten ziehen zum Aktualisieren!</string>
     <string name="error_connection_failed">Fehler: Konnte keine Daten empfangen…</string>

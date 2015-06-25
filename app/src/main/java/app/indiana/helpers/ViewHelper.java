@@ -70,12 +70,10 @@ public class ViewHelper {
     }
 
     public static String getReplyText(int replies, View view) {
-        if (replies == 1) {
-            return replies + " " + view.getResources().getString(R.string.reply_num_replies_one);
-        } else if (replies > 1) {
-            return replies + " " + view.getResources().getString(R.string.reply_num_replies_multi);
+        if (replies > 0) {
+            return view.getResources().getQuantityString(R.plurals.reply, replies, replies);
         }
-        return view.getResources().getString(R.string.reply_zero_replies);
+        return view.getResources().getString(R.string.reply_default);
     }
 
 }
