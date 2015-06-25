@@ -23,15 +23,19 @@
 
     <string name="reply_post_button">Post</string>
     <string name="reply_placeholder">Your reply</string>
-    <string name="reply_zero_replies">Reply</string>
-    <string name="reply_num_replies_one">reply</string>
-    <string name="reply_num_replies_multi">replies</string>
     <string name="reply_default">Reply</string>
     <plurals name="reply">
         <item quantity="zero">Reply</item>
         <item quantity="one">%d reply</item>
         <item quantity="other">%d replies</item>
     </plurals>
+
+    <string name="notification_my_title_new">New</string>
+    <string name="notification_my_title_ratings">ratings</string>
+    <string name="notification_my_title_replies">replies</string>
+    <string name="notification_my_title_ratings_replies">ratings and replies</string>
+    <string name="notification_my_summary_score">Score: %s</string>
+    <string name="notification_my_summary_replies">Replies: %s</string>
 
     <string name="error_post_view_default_message">No Indies found! Pull down to refresh!</string>
     <string name="error_connection_failed">Error: Could not fetch data…</string>
