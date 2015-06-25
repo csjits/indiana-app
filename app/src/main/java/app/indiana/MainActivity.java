@@ -1,5 +1,6 @@
 package app.indiana;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -110,7 +111,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         mIsInForeground = false;
         BackgroundDataService backgroundDataService = new BackgroundDataService(this);
         backgroundDataService.setIntent(NotificationService.class);
-        backgroundDataService.run(android.app.AlarmManager.INTERVAL_FIFTEEN_MINUTES);
+        backgroundDataService.run(AlarmManager.INTERVAL_HOUR);
     }
 
     @Override
