@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentBottom="true"
-                    android:text="@string/reply_zero_replies"
+                    android:text="@string/reply_default"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="@dimen/card_meta_text_size"/>
 
